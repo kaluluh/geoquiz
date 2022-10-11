@@ -19,12 +19,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('GeoQuiz'),
         actions: [
-          TextButton(
+          IconButton(
+            icon: const Icon(Icons.logout),
             onPressed: _signOut,
-            child: const Text(
-              'Logout',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
           ),
         ],
       ),
@@ -40,10 +37,10 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Welcome',
+          Text(
+            'Welcome ${auth.currentUser?.displayName ?? ''}!',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 48.0),
           ElevatedButton(

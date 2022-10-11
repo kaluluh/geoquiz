@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geoquiz/common/elevated_button_side_icon.dart';
+import 'package:geoquiz/common/spaced_column.dart';
 
 import '../services/auth.dart';
 
@@ -9,6 +12,22 @@ class SignInPage extends StatelessWidget {
   Future<void> _signInAnonymously() async {
     try {
       await auth.signInAnonymously();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
@@ -28,22 +47,42 @@ class SignInPage extends StatelessWidget {
   Widget _buildContent() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
+      child: SpacedColumn(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            'Sign in',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 48.0),
-          ElevatedButton(
-            onPressed: _signInAnonymously,
-            child: const Text('Sign in anonymously'),
-          ),
-        ],
+        children: _buildSocialButtons(),
       ),
     );
+  }
+
+  List<Widget> _buildSocialButtons() {
+    return [
+        ElevatedButtonSideIcon(
+          onPressed: _signInWithGoogle,
+          text: 'Sign in with Google',
+          icon: SvgPicture.asset(
+            'assets/images/google-logo.svg',
+            width: 24.0,
+            height: 24.0,
+          ),
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.black87),
+        ),
+        ElevatedButtonSideIcon(
+          onPressed: _signInWithFacebook,
+          text: 'Sign in with Facebook',
+          icon: SvgPicture.asset(
+            'assets/images/facebook-logo.svg',
+            width: 24.0,
+            height: 24.0,
+          ),
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.black87),
+        ),
+        ElevatedButtonSideIcon(
+          onPressed: _signInAnonymously,
+          text: 'Sign in anonymously',
+        ),
+      ];
   }
 }
