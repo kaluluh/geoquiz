@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geoquiz/pages/landing_page.dart';
+import 'package:geoquiz/services/auth.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -16,11 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World'),
+    return Provider<AuthBase>(
+      create: (context) => Auth(),
+      child: MaterialApp(
+        title: 'Time Tracker',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
         ),
+        home: LandingPage(),
       ),
     );
   }
