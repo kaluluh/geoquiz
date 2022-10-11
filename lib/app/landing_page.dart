@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/home_page.dart';
-import 'package:geoquiz/app/sign_in_page.dart';
+import 'package:geoquiz/app/intro_page.dart';
 
 import '../services/auth.dart';
 
@@ -17,7 +17,7 @@ class LandingPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
           if (user == null) {
-            return SignInPage(
+            return IntroductionPage(
               auth: auth,
             );
           }

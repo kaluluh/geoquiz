@@ -4,14 +4,33 @@ import 'package:geoquiz/common/elevated_button_side_icon.dart';
 import 'package:geoquiz/common/spaced_column.dart';
 
 import '../services/auth.dart';
+import 'sign_in_form.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key, required this.auth}) : super(key: key);
+enum EmailSignInFormType { login, signup }
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key, required this.auth, required this.formType})
+      : super(key: key);
   final AuthBase auth;
+  final EmailSignInFormType formType;
+
+  @override
+  SignInPageState createState() => SignInPageState();
+}
+
+class SignInPageState extends State<SignInPage> {
+
+  late EmailSignInFormType _formType;
+
+  @override
+  void initState() {
+    super.initState();
+    _formType = widget.formType;
+  }
 
   Future<void> _signInAnonymously() async {
     try {
-      await auth.signInAnonymously();
+      await widget.auth.signInAnonymously();
     } catch (e) {
       print(e.toString());
     }
@@ -19,7 +38,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle() async {
     try {
-      await auth.signInWithGoogle();
+      await widget.auth.signInWithGoogle();
     } catch (e) {
       print(e.toString());
     }
@@ -27,7 +46,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithFacebook() async {
     try {
-      await auth.signInWithFacebook();
+      await widget.auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
@@ -45,12 +64,32 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SpacedColumn(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildSocialButtons(),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SpacedColumn(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 16.0,
+          children: [
+            Text(_formType == EmailSignInFormType.signup ? 'Sign up' : 'Sign in', textAlign: TextAlign.center, style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600)),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SignInForm(
+                    auth: widget.auth,
+                    formType: _formType,
+                    switchFormType: _switchFormType,
+                ),
+              ),
+            ),
+            SpacedColumn(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _buildSocialButtons(),
+            ),
+          ],
+        )
       ),
     );
   }
@@ -59,7 +98,7 @@ class SignInPage extends StatelessWidget {
     return [
         ElevatedButtonSideIcon(
           onPressed: _signInWithGoogle,
-          text: 'Sign in with Google',
+          text: _formType == EmailSignInFormType.signup ? 'Sign up with Google' : 'Sign in with Google',
           icon: SvgPicture.asset(
             'assets/images/google-logo.svg',
             width: 24.0,
@@ -70,7 +109,7 @@ class SignInPage extends StatelessWidget {
         ),
         ElevatedButtonSideIcon(
           onPressed: _signInWithFacebook,
-          text: 'Sign in with Facebook',
+          text: _formType == EmailSignInFormType.signup ? 'Sign up with Facebook' : 'Sign in with Facebook',
           icon: SvgPicture.asset(
             'assets/images/facebook-logo.svg',
             width: 24.0,
@@ -84,5 +123,11 @@ class SignInPage extends StatelessWidget {
           text: 'Sign in anonymously',
         ),
       ];
+  }
+
+  void _switchFormType() {
+    setState(() {
+      _formType = _formType == EmailSignInFormType.login ? EmailSignInFormType.signup : EmailSignInFormType.login;
+    });
   }
 }
