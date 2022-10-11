@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.geoquiz">
+    package="no.ntnu.geoquiz">
    <application
         android:label="geoquiz"
         android:name="${applicationName}"
