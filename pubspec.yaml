@@ -26,6 +26,10 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
+#dependency_overrides:
+#  firebase_core_platform_interface: 4.5.2
+
 dependencies:
   flutter:
     sdk: flutter
@@ -35,6 +39,8 @@ dependencies:
   google_sign_in: 5.4.2
   flutter_login_facebook: 1.6.0
   flutter_svg: 1.1.5
+  cloud_firestore: ^3.4.9
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:
