@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="facebook_app_id">845182929830068</string>
+    <string name="facebook_client_token">6e9cd647b69500576d2060c292983e9e</string>
+</resources>
