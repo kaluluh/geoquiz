@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,15 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBjIt_M6nP-VBNhLvfFU77Qq_FxhCiT2DI',
+    appId: '1:501207645776:web:872c088fcbf97e9dbc9b55',
+    messagingSenderId: '501207645776',
+    projectId: 'geoquiz-c6668',
+    authDomain: 'geoquiz-c6668.firebaseapp.com',
+    storageBucket: 'geoquiz-c6668.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAf2FQ3rUyr5Ndex7hLos1kxtuTeSrYm64',
     appId: '1:501207645776:android:2ad0acd732f6bb6dbc9b55',
@@ -59,12 +62,23 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA_5Rz1hTojNQRyxaHsiORlIYOfGzYepQ8',
-    appId: '1:501207645776:ios:55b1667deb100c3fbc9b55',
+    appId: '1:501207645776:ios:b02e45350662e1a2bc9b55',
     messagingSenderId: '501207645776',
     projectId: 'geoquiz-c6668',
     storageBucket: 'geoquiz-c6668.appspot.com',
-    androidClientId: '501207645776-rr79cd3mtd1u2ohsioqebcif6p3qbl43.apps.googleusercontent.com',
-    iosClientId: '501207645776-6p9vctfrmas363lbjb7tijd27ggbivlv.apps.googleusercontent.com',
+    androidClientId: '501207645776-15s0cv54m1snmqkrm38sgvoc2faag00n.apps.googleusercontent.com',
+    iosClientId: '501207645776-3lr7tbkqtoe7pk1a19057dmilat6pcma.apps.googleusercontent.com',
+    iosBundleId: 'no.ntnu.geoquiz',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyA_5Rz1hTojNQRyxaHsiORlIYOfGzYepQ8',
+    appId: '1:501207645776:ios:b02e45350662e1a2bc9b55',
+    messagingSenderId: '501207645776',
+    projectId: 'geoquiz-c6668',
+    storageBucket: 'geoquiz-c6668.appspot.com',
+    androidClientId: '501207645776-15s0cv54m1snmqkrm38sgvoc2faag00n.apps.googleusercontent.com',
+    iosClientId: '501207645776-3lr7tbkqtoe7pk1a19057dmilat6pcma.apps.googleusercontent.com',
     iosBundleId: 'no.ntnu.geoquiz',
   );
 }
