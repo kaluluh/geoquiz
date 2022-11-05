@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>501207645776-3lr7tbkqtoe7pk1a19057dmilat6pcma.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.501207645776-3lr7tbkqtoe7pk1a19057dmilat6pcma</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>501207645776-15s0cv54m1snmqkrm38sgvoc2faag00n.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA_5Rz1hTojNQRyxaHsiORlIYOfGzYepQ8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>501207645776</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>no.ntnu.geoquiz</string>
+	<key>PROJECT_ID</key>
+	<string>geoquiz-c6668</string>
+	<key>STORAGE_BUCKET</key>
+	<string>geoquiz-c6668.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:501207645776:ios:b02e45350662e1a2bc9b55</string>
+</dict>
+</plist>

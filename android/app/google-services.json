@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "501207645776-15s0cv54m1snmqkrm38sgvoc2faag00n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "no.ntnu.geoquiz",
+            "certificate_hash": "64390b91988b05a8d2545227ebe28b4ae2691800"
+          }
+        },
+        {
           "client_id": "501207645776-rr79cd3mtd1u2ohsioqebcif6p3qbl43.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
