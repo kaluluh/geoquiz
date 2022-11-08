@@ -14,7 +14,8 @@ class IntroductionPage extends StatelessWidget {
         fullscreenDialog: true,
         builder: (context) => SignInPage(
           auth: auth,
-          formType: isSignUp ? EmailSignInFormType.signup : EmailSignInFormType.login,
+          formType:
+              isSignUp ? EmailSignInFormType.signup : EmailSignInFormType.login,
         ),
       ),
     );
@@ -23,52 +24,99 @@ class IntroductionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GeoQuiz'),
-      ),
       body: _buildContent(context),
-      backgroundColor: Colors.grey[200],
+     // backgroundColor: Colors.purple.withOpacity(0.5),
     );
   }
 
   _buildContent(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SpacedColumn(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 16.0,
-        children: [
-          const Text(
-            'Welcome to GeoQuiz!',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
-          ),
-          SpacedColumn(
+    return DecoratedBox(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.fill)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 16.0,
             children: [
-              // Make them bigger and same width
+              const Text(
+                'let\u0027s explore',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 23.0,
+                  fontWeight: FontWeight.w600,
+                  color: Color.fromRGBO(253, 205, 28, 1),
+                ),
+              ),
+              const Text(
+                'THE WORLD',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 38.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(245, 245, 245, 1),
+                ),
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
               ElevatedButton(
                 onPressed: () => _openSignInPage(context, false),
                 style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(30, 197, 187, 1),
                   minimumSize: const Size(120.0, 48.0),
                 ),
-                child: const Text('Log In', style: TextStyle(fontSize: 16.0)),
-              ),
-              ElevatedButton(
-                onPressed: () => _openSignInPage(context, true),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(120.0, 48.0),
-                  primary: Colors.white,
+                child: const Text(
+                  'Play',
+                  style: TextStyle(
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 2.0,
+                        color: Colors.black,
+                      ),
+
+
+                    ],
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: const Text('Sign Up', style: TextStyle(fontSize: 16.0, color: Colors.black)),
               ),
-            ]
-          )
-        ],
-      ),
-    );
+              SizedBox(
+                height: 30.0,
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Make them bigger and same width
+                    ElevatedButton(
+                      onPressed: () => _openSignInPage(context, false),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120.0, 48.0),
+                        primary:  Color.fromRGBO(253, 205, 28, 1),
+                      ),
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                    ),
+                    SizedBox(width: 10.0),
+                    ElevatedButton(
+                      onPressed: () => _openSignInPage(context, true),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120.0, 48.0),
+                        primary: Color.fromRGBO(11, 11, 56, 1),
+                      ),
+                      child: const Text('Sign Up',
+                          style:
+                              TextStyle(fontSize: 16.0, color: Colors.white)),
+                    ),
+                  ])
+            ],
+          ),
+        ));
   }
 }
