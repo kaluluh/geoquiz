@@ -30,10 +30,12 @@ class IntroductionPage extends StatelessWidget {
   }
 
   _buildContent(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      constraints: const BoxConstraints.expand(),
+
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.fill)),
+                image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -44,7 +46,7 @@ class IntroductionPage extends StatelessWidget {
                 'let\u0027s explore',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 23.0,
+                  fontSize: 27.0,
                   fontWeight: FontWeight.w600,
                   color: Color.fromRGBO(253, 205, 28, 1),
                 ),
@@ -53,7 +55,7 @@ class IntroductionPage extends StatelessWidget {
                 'THE WORLD',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 38.0,
+                  fontSize: 45.0,
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(245, 245, 245, 1),
                 ),
@@ -65,7 +67,7 @@ class IntroductionPage extends StatelessWidget {
                 onPressed: () => _openSignInPage(context, false),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromRGBO(30, 197, 187, 1),
-                  minimumSize: const Size(120.0, 48.0),
+                  minimumSize: const Size(140.0, 70.0),
                 ),
                 child: const Text(
                   'Play',
@@ -79,7 +81,7 @@ class IntroductionPage extends StatelessWidget {
 
 
                     ],
-                    fontSize: 20.0,
+                    fontSize: 40.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
