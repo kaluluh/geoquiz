@@ -12,7 +12,8 @@ class IntroductionPage extends StatelessWidget with Keys {
       MaterialPageRoute<void>(
         fullscreenDialog: true,
         builder: (context) => SignInPage(
-          formType: isSignUp ? EmailSignInFormType.signup : EmailSignInFormType.login,
+          formType:
+              isSignUp ? EmailSignInFormType.signup : EmailSignInFormType.login,
         ),
       ),
     );
@@ -22,17 +23,17 @@ class IntroductionPage extends StatelessWidget with Keys {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildContent(context),
-     // backgroundColor: Colors.purple.withOpacity(0.5),
+      // backgroundColor: Colors.purple.withOpacity(0.5),
     );
   }
 
   _buildContent(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints.expand(),
-
+        constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/images/background_image.png"),
+                fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -58,8 +59,6 @@ class IntroductionPage extends StatelessWidget with Keys {
                       blurRadius: 2.0,
                       color: Colors.black,
                     ),
-
-
                   ],
                   fontSize: 50.0,
                   fontWeight: FontWeight.bold,
@@ -84,8 +83,6 @@ class IntroductionPage extends StatelessWidget with Keys {
                         blurRadius: 2.0,
                         color: Colors.black,
                       ),
-
-
                     ],
                     fontSize: 40.0,
                     fontWeight: FontWeight.bold,
@@ -104,7 +101,7 @@ class IntroductionPage extends StatelessWidget with Keys {
                       onPressed: () => _openSignInPage(context, false),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(120.0, 48.0),
-                        primary:  Color.fromRGBO(253, 205, 28, 1),
+                        primary: Color.fromRGBO(253, 205, 28, 1),
                       ),
                       child: const Text(
                         'Log In',

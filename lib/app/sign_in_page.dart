@@ -11,8 +11,8 @@ import 'sign_in_form.dart';
 enum EmailSignInFormType { login, signup }
 
 class SignInPage extends StatefulWidget with Keys {
-
-  const SignInPage({Key? key, required this.formType, this.onSignedIn}) : super(key: key);
+  const SignInPage({Key? key, required this.formType, this.onSignedIn})
+      : super(key: key);
   final EmailSignInFormType formType;
   final VoidCallback? onSignedIn;
 
@@ -21,7 +21,6 @@ class SignInPage extends StatefulWidget with Keys {
 }
 
 class SignInPageState extends State<SignInPage> {
-
   late EmailSignInFormType _formType;
   bool isLoading = false;
 
@@ -92,76 +91,88 @@ class SignInPageState extends State<SignInPage> {
   }
 
   Widget _buildContent(AuthBase auth) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SpacedColumn(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: 16.0,
-          children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SignInForm(
-                    formType: _formType,
-                    switchFormType: _switchFormType,
-                    isLoading: isLoading,
-                    setIsLoading: (isLoading) => setState(() => this.isLoading = isLoading),
-                    onSignedIn: widget.onSignedIn,
-                ),
-              ),
-            ),
-            SpacedColumn(
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/background_image.png"),
+              fit: BoxFit.cover)),
+      child: SingleChildScrollView(
+        child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SpacedColumn(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: _buildSocialButtons(auth, context),
-            ),
-          ],
-        )
+              spacing: 16.0,
+              children: [
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SignInForm(
+                      formType: _formType,
+                      switchFormType: _switchFormType,
+                      isLoading: isLoading,
+                      setIsLoading: (isLoading) =>
+                          setState(() => this.isLoading = isLoading),
+                      onSignedIn: widget.onSignedIn,
+                    ),
+                  ),
+                ),
+                SpacedColumn(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 20.0,
+                  children: _buildSocialButtons(auth, context),
+                ),
+              ],
+            )),
       ),
     );
   }
 
   List<Widget> _buildSocialButtons(AuthBase auth, BuildContext context) {
     return [
-        ElevatedButtonSideIcon(
-          key: Keys.signInWithGoogleButton,
-          onPressed: isLoading ? null : () => _signInWithGoogle(auth, context),
-          text: _formType == EmailSignInFormType.signup ? 'Sign up with Google' : 'Sign in with Google',
-          icon: SvgPicture.asset(
-            'assets/images/google-logo.svg',
-            width: 24.0,
-            height: 24.0,
-          ),
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(color: Colors.black87),
+      ElevatedButtonSideIcon(
+        key: Keys.signInWithGoogleButton,
+        onPressed: isLoading ? null : () => _signInWithGoogle(auth, context),
+        text: _formType == EmailSignInFormType.signup
+            ? 'Sign up with Google'
+            : 'Sign in with Google',
+        icon: SvgPicture.asset(
+          'assets/images/google-logo.svg',
+          width: 24.0,
+          height: 24.0,
         ),
-      SizedBox(height: 20.0,),
-        ElevatedButtonSideIcon(
-          key: Keys.signInWithFacebookButton,
-          onPressed: isLoading ? null : () => _signInWithFacebook(auth, context),
-          text: _formType == EmailSignInFormType.signup ? 'Sign up with Facebook' : 'Sign in with Facebook',
-          icon: SvgPicture.asset(
-            'assets/images/facebook-logo.svg',
-            width: 24.0,
-            height: 24.0,
-          ),
-          backgroundColor: Colors.white,
-          textStyle: const TextStyle(color: Colors.black87),
+        backgroundColor: Colors.white,
+        textStyle: const TextStyle(color: Colors.black87),
+      ),
+      ElevatedButtonSideIcon(
+        key: Keys.signInWithFacebookButton,
+        onPressed: isLoading ? null : () => _signInWithFacebook(auth, context),
+        text: _formType == EmailSignInFormType.signup
+            ? 'Sign up with Facebook'
+            : 'Sign in with Facebook',
+        icon: SvgPicture.asset(
+          'assets/images/facebook-logo.svg',
+          width: 24.0,
+          height: 24.0,
         ),
-      SizedBox(height: 20.0,),
-        ElevatedButtonSideIcon(
-          key: Keys.signInAnonymouslyButton,
-          onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
-          text: 'Sign in anonymously',
-        ),
-      ];
+        backgroundColor: Colors.white,
+        textStyle: const TextStyle(color: Colors.black87),
+      ),
+      ElevatedButtonSideIcon(
+        key: Keys.signInAnonymouslyButton,
+        onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
+        text: 'Sign in anonymously',
+      ),
+    ];
   }
 
   void _switchFormType() {
     setState(() {
-      _formType = _formType == EmailSignInFormType.login ? EmailSignInFormType.signup : EmailSignInFormType.login;
+      _formType = _formType == EmailSignInFormType.login
+          ? EmailSignInFormType.signup
+          : EmailSignInFormType.login;
     });
   }
 }
