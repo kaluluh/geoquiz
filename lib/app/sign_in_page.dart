@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geoquiz/common/elevated_button_side_icon.dart';
+import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/spaced_column.dart';
+import 'package:provider/provider.dart';
 
 import '../services/auth.dart';
 import 'sign_in_form.dart';
 
 enum EmailSignInFormType { login, signup }
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key, required this.auth, required this.formType})
-      : super(key: key);
-  final AuthBase auth;
+class SignInPage extends StatefulWidget with Keys {
+
+  const SignInPage({Key? key, required this.formType, this.onSignedIn}) : super(key: key);
   final EmailSignInFormType formType;
+  final VoidCallback? onSignedIn;
 
   @override
   SignInPageState createState() => SignInPageState();
@@ -21,6 +23,7 @@ class SignInPage extends StatefulWidget {
 class SignInPageState extends State<SignInPage> {
 
   late EmailSignInFormType _formType;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -28,44 +31,68 @@ class SignInPageState extends State<SignInPage> {
     _formType = widget.formType;
   }
 
-  Future<void> _signInAnonymously() async {
+  Future<void> _signInAnonymously(AuthBase auth, BuildContext context) async {
     try {
-      await widget.auth.signInAnonymously();
+      setState(() {
+        isLoading = true;
+      });
+      await auth.signInAnonymously();
+      widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
+    } finally {
+      Navigator.of(context).pop();
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(AuthBase auth, BuildContext context) async {
     try {
-      await widget.auth.signInWithGoogle();
+      setState(() {
+        isLoading = true;
+      });
+      await auth.signInWithGoogle();
+      widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
+    } finally {
+      Navigator.of(context).pop();
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  Future<void> _signInWithFacebook() async {
+  Future<void> _signInWithFacebook(AuthBase auth, BuildContext context) async {
     try {
-      await widget.auth.signInWithFacebook();
+      setState(() {
+        isLoading = true;
+      });
+      await auth.signInWithFacebook();
+      widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
+    } finally {
+      Navigator.of(context).pop();
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
     return Scaffold(
-
-      body: _buildContent(),
+      body: _buildContent(auth),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent() {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.cover)),
+  Widget _buildContent(AuthBase auth) {
+    return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SpacedColumn(
@@ -77,16 +104,18 @@ class SignInPageState extends State<SignInPage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SignInForm(
-                    auth: widget.auth,
                     formType: _formType,
                     switchFormType: _switchFormType,
+                    isLoading: isLoading,
+                    setIsLoading: (isLoading) => setState(() => this.isLoading = isLoading),
+                    onSignedIn: widget.onSignedIn,
                 ),
               ),
             ),
             SpacedColumn(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: _buildSocialButtons(),
+              children: _buildSocialButtons(auth, context),
             ),
           ],
         )
@@ -94,10 +123,11 @@ class SignInPageState extends State<SignInPage> {
     );
   }
 
-  List<Widget> _buildSocialButtons() {
+  List<Widget> _buildSocialButtons(AuthBase auth, BuildContext context) {
     return [
-      ElevatedButtonSideIcon(
-          onPressed: _signInWithGoogle,
+        ElevatedButtonSideIcon(
+          key: Keys.signInWithGoogleButton,
+          onPressed: isLoading ? null : () => _signInWithGoogle(auth, context),
           text: _formType == EmailSignInFormType.signup ? 'Sign up with Google' : 'Sign in with Google',
           icon: SvgPicture.asset(
             'assets/images/google-logo.svg',
@@ -106,12 +136,11 @@ class SignInPageState extends State<SignInPage> {
           ),
           backgroundColor: Colors.white,
           textStyle: const TextStyle(color: Colors.black87),
-
         ),
       SizedBox(height: 20.0,),
         ElevatedButtonSideIcon(
-          onPressed: _signInWithFacebook,
-
+          key: Keys.signInWithFacebookButton,
+          onPressed: isLoading ? null : () => _signInWithFacebook(auth, context),
           text: _formType == EmailSignInFormType.signup ? 'Sign up with Facebook' : 'Sign in with Facebook',
           icon: SvgPicture.asset(
             'assets/images/facebook-logo.svg',
@@ -123,7 +152,8 @@ class SignInPageState extends State<SignInPage> {
         ),
       SizedBox(height: 20.0,),
         ElevatedButtonSideIcon(
-          onPressed: _signInAnonymously,
+          key: Keys.signInAnonymouslyButton,
+          onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
           text: 'Sign in anonymously',
         ),
       ];

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/landing_page.dart';
 import 'package:geoquiz/services/auth.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -10,22 +11,23 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const GeoQuizApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class GeoQuizApp extends StatelessWidget {
+  const GeoQuizApp({Key? key, bool useMockAuth = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'GeoQuiz',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: LandingPage(
-        auth: Auth(),
+    return Provider<AuthBase>(
+      create: (_) => Auth(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'GeoQuiz',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
+        home: const LandingPage(),
       ),
     );
   }
