@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ElevatedButtonSideIcon extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final Widget? icon;
   final Color? backgroundColor;
@@ -9,7 +9,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
 
   const ElevatedButtonSideIcon({
     Key? key,
-    required this.onPressed,
+    this.onPressed,
     required this.text,
     this.icon,
     this.backgroundColor,

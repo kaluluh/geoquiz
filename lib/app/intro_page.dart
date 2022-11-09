@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
-import 'package:geoquiz/services/auth.dart';
 
 import '../common/spaced_column.dart';
 
 class IntroductionPage extends StatelessWidget {
-  const IntroductionPage({Key? key, required this.auth}) : super(key: key);
-  final AuthBase auth;
+  const IntroductionPage({Key? key}) : super(key: key);
 
   void _openSignInPage(BuildContext context, bool isSignUp) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
         builder: (context) => SignInPage(
-          auth: auth,
           formType: isSignUp ? EmailSignInFormType.signup : EmailSignInFormType.login,
         ),
       ),

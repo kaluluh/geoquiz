@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.auth}) : super(key: key);
-  final AuthBase auth;
+  const HomePage({Key? key}) : super(key: key);
 
-  Future<void> _signOut() async {
+  Future<void> _signOut(AuthBase auth) async {
     try {
       await auth.signOut();
     } catch (e) {
@@ -15,22 +15,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('GeoQuiz'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: _signOut,
+            onPressed: () => _signOut(auth),
           ),
         ],
       ),
-      body: _buildContent(),
+      body: _buildContent(auth),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(AuthBase auth) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
