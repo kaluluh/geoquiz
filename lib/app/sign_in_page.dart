@@ -85,20 +85,27 @@ class SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = Provider.of<AuthBase>(context);
-    return Scaffold(
-      body: _buildContent(auth),
-      backgroundColor: Colors.grey[200],
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/background_image.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+
+      child: Scaffold(
+        body: _buildContent(auth),
+        backgroundColor: Colors.transparent,
+      ),
     );
   }
 
   Widget _buildContent(AuthBase auth) {
     return Container(
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/background_image.png"),
-              fit: BoxFit.cover
-          )),
       child: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(16.0),
