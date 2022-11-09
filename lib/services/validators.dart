@@ -37,7 +37,7 @@ class UsernameValidator extends RegexValidator {
 
 class PasswordValidator extends RegexValidator {
   // At least 6 characters, at least one uppercase letter, one lowercase letter and one number, can contain special characters
-  PasswordValidator() : super(RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9@$!%*#?&]{6,20}$'));
+  PasswordValidator() : super(RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9@$!%*#?&.,;]{6,20}$'));
 
   @override
   String get errorText => 'Password must be at least 6 characters, at least one uppercase letter, one lowercase letter and one number';

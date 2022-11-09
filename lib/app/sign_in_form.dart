@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
+import 'package:geoquiz/common/keys.dart';
 import 'package:provider/provider.dart';
 
 import '../common/spaced_column.dart';
 import '../services/auth.dart';
 import '../services/validators.dart';
 
-class SignInForm extends StatefulWidget {
-  const SignInForm({Key? key, required this.formType, required this.switchFormType, required this.isLoading, required this.setIsLoading}) : super(key: key);
+class SignInForm extends StatefulWidget with Keys {
+  const SignInForm({Key? key, required this.formType, required this.switchFormType, required this.isLoading, required this.setIsLoading, this.onSignedIn}) : super(key: key);
   final EmailSignInFormType formType;
   final VoidCallback? switchFormType;
   final bool? isLoading;
   final void Function(bool)? setIsLoading;
+  final VoidCallback? onSignedIn;
 
   @override
   State<SignInForm> createState() => _SignIpFormState();
@@ -44,6 +46,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   Widget _buildEmailTextField() {
     bool showErrorText = _submitted && !widget.isLoading! && !emailValidator.isValid(_email);
     return TextFormField(
+      key: Keys.signInFormEmailField,
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
@@ -63,6 +66,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   Widget _buildPasswordTextField(AuthBase auth) {
     bool showErrorText = _submitted && !widget.isLoading! && !passwordValidator.isValid(_password);
     return TextFormField(
+      key: Keys.signInFormPasswordField,
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
@@ -73,19 +77,23 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       enabled: !widget.isLoading!,
       textInputAction: TextInputAction.done,
       onEditingComplete: () => _submit(auth),
+      onChanged: (password) => _updateState(),
       validator: (password) => passwordValidator.isValid(password!) ? null : passwordValidator.errorText,
     );
   }
 
   Widget _buildSubmitButton(AuthBase auth) {
+    bool submitEnabled = emailValidator.isValid(_email) && passwordValidator.isValid(_password) && !widget.isLoading!;
     return ElevatedButton(
-      onPressed: widget.isLoading! ? null : () => _submit(auth),
+      key: Keys.signInEmailButton,
+      onPressed: !submitEnabled ? null : () => _submit(auth),
       child: Text(widget.formType == EmailSignInFormType.signup ? 'Create an Account' : 'Sign in'),
     );
   }
 
   Widget _buildSwitchFormTypeButton() {
     return TextButton(
+      key: Keys.signInFormEmailField,
       onPressed: widget.isLoading! ? null : widget.switchFormType,
       child: Text(widget.formType == EmailSignInFormType.signup ? 'Have an account? Sign in' : 'Need an account? Sign up'),
     );
@@ -110,13 +118,14 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
       }
-      Navigator.of(context).pop();
+      widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
     } finally {
       setState(() {
         widget.setIsLoading!(false);
       });
+      Navigator.of(context).pop();
     }
   }
 

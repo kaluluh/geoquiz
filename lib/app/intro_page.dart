@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
+import 'package:geoquiz/common/keys.dart';
 
 import '../common/spaced_column.dart';
 
-class IntroductionPage extends StatelessWidget {
+class IntroductionPage extends StatelessWidget with Keys {
   const IntroductionPage({Key? key}) : super(key: key);
 
   void _openSignInPage(BuildContext context, bool isSignUp) {
@@ -48,6 +49,7 @@ class IntroductionPage extends StatelessWidget {
             children: [
               // Make them bigger and same width
               ElevatedButton(
+                key: Keys.signInButton,
                 onPressed: () => _openSignInPage(context, false),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(120.0, 48.0),
@@ -55,6 +57,7 @@ class IntroductionPage extends StatelessWidget {
                 child: const Text('Log In', style: TextStyle(fontSize: 16.0)),
               ),
               ElevatedButton(
+                key: Keys.signUpButton,
                 onPressed: () => _openSignInPage(context, true),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(120.0, 48.0),
