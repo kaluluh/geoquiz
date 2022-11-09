@@ -55,7 +55,16 @@ class IntroductionPage extends StatelessWidget {
                 'THE WORLD',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 45.0,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(1.0, 1.0),
+                      blurRadius: 2.0,
+                      color: Colors.black,
+                    ),
+
+
+                  ],
+                  fontSize: 50.0,
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(245, 245, 245, 1),
                 ),

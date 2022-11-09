@@ -6,7 +6,12 @@ import '../services/auth.dart';
 import '../services/validators.dart';
 
 class SignInForm extends StatefulWidget {
-  const SignInForm({Key? key, required this.auth, required this.formType, this.switchFormType}) : super(key: key);
+  const SignInForm(
+      {Key? key,
+      required this.auth,
+      required this.formType,
+      this.switchFormType})
+      : super(key: key);
   final AuthBase auth;
   final EmailSignInFormType formType;
   final VoidCallback? switchFormType;
@@ -20,7 +25,9 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+
   String get _email => _emailController.text;
+
   String get _password => _passwordController.text;
   bool _submitted = false;
   bool _isLoading = false;
@@ -28,7 +35,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   @override
   Widget build(BuildContext context) {
     return SpacedColumn(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 8.0,
       children: [
         _buildEmailTextField(),
@@ -45,6 +52,12 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white70,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
         labelText: 'Email',
         errorText: showErrorText ? emailValidator.errorText : null,
       ),
@@ -53,7 +66,8 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       textInputAction: TextInputAction.next,
       onChanged: (email) => _updateState(),
       onEditingComplete: () => _emailEditingComplete(),
-      validator: (email) => emailValidator.isValid(email!) ? null : emailValidator.errorText,
+      validator: (email) =>
+          emailValidator.isValid(email!) ? null : emailValidator.errorText,
     );
   }
 
@@ -63,27 +77,48 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white70,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
         labelText: 'Password',
         errorText: showErrorText ? passwordValidator.errorText : null,
       ),
       obscureText: true,
       textInputAction: TextInputAction.done,
       onEditingComplete: _submit,
-      validator: (password) => passwordValidator.isValid(password!) ? null : passwordValidator.errorText,
+      validator: (password) => passwordValidator.isValid(password!)
+          ? null
+          : passwordValidator.errorText,
     );
   }
 
   Widget _buildSubmitButton() {
     return ElevatedButton(
       onPressed: _isLoading ? null : _submit,
-      child: Text(widget.formType == EmailSignInFormType.signup ? 'Sign up' : 'Sign in'),
+      style: ElevatedButton.styleFrom(
+        primary: Color.fromRGBO(11, 11, 56, 1),
+        minimumSize: const Size(120.0, 40.0),
+      ),
+      child: Text(widget.formType == EmailSignInFormType.signup
+          ? 'Sign up'
+          : 'Sign in',
+          style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold,)),
     );
   }
 
   Widget _buildSwitchFormTypeButton() {
     return TextButton(
       onPressed: widget.switchFormType,
-      child: Text(widget.formType == EmailSignInFormType.signup ? 'Have an account? Sign in' : 'Need an account? Sign up'),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.white70,
+        minimumSize: const Size(150.0, 20.0),
+      ),
+      child: Text(widget.formType == EmailSignInFormType.signup
+          ? 'Have an account? Sign in'
+          : 'Need an account? Sign up'),
     );
   }
 

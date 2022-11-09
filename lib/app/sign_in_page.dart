@@ -55,16 +55,17 @@ class SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GeoQuiz'),
-      ),
+
       body: _buildContent(),
       backgroundColor: Colors.grey[200],
     );
   }
 
   Widget _buildContent() {
-    return SingleChildScrollView(
+    return Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("lib/assets/images/background_image.png"), fit: BoxFit.cover)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SpacedColumn(
@@ -72,8 +73,7 @@ class SignInPageState extends State<SignInPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 16.0,
           children: [
-            Text(_formType == EmailSignInFormType.signup ? 'Sign up' : 'Sign in', textAlign: TextAlign.center, style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600)),
-            Card(
+            Container(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SignInForm(
@@ -96,7 +96,7 @@ class SignInPageState extends State<SignInPage> {
 
   List<Widget> _buildSocialButtons() {
     return [
-        ElevatedButtonSideIcon(
+      ElevatedButtonSideIcon(
           onPressed: _signInWithGoogle,
           text: _formType == EmailSignInFormType.signup ? 'Sign up with Google' : 'Sign in with Google',
           icon: SvgPicture.asset(
@@ -106,9 +106,12 @@ class SignInPageState extends State<SignInPage> {
           ),
           backgroundColor: Colors.white,
           textStyle: const TextStyle(color: Colors.black87),
+
         ),
+      SizedBox(height: 20.0,),
         ElevatedButtonSideIcon(
           onPressed: _signInWithFacebook,
+
           text: _formType == EmailSignInFormType.signup ? 'Sign up with Facebook' : 'Sign in with Facebook',
           icon: SvgPicture.asset(
             'assets/images/facebook-logo.svg',
@@ -118,6 +121,7 @@ class SignInPageState extends State<SignInPage> {
           backgroundColor: Colors.white,
           textStyle: const TextStyle(color: Colors.black87),
         ),
+      SizedBox(height: 20.0,),
         ElevatedButtonSideIcon(
           onPressed: _signInAnonymously,
           text: 'Sign in anonymously',
