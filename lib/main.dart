@@ -11,11 +11,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const GeoQuizApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class GeoQuizApp extends StatelessWidget {
+  const GeoQuizApp({Key? key, bool useMockAuth = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

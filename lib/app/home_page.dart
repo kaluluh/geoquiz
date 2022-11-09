@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/services/auth.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatelessWidget with Keys {
   const HomePage({Key? key}) : super(key: key);
 
   Future<void> _signOut(AuthBase auth) async {
@@ -40,6 +41,7 @@ class HomePage extends StatelessWidget {
         children: [
           Text(
             'Welcome ${auth.currentUser?.displayName ?? ''}!',
+            key: Keys.welcomeText,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
           ),
