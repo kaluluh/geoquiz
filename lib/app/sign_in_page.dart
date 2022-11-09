@@ -118,11 +118,14 @@ class SignInPageState extends State<SignInPage> {
                     ),
                   ),
                 ),
-                SpacedColumn(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: 20.0,
-                  children: _buildSocialButtons(auth, context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  child: SpacedColumn(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 20.0,
+                    children: _buildSocialButtons(auth, context),
+                  ),
                 ),
               ],
             )),
