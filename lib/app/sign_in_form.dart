@@ -3,6 +3,7 @@ import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:provider/provider.dart';
 
+import '../common/colors.dart';
 import '../common/spaced_column.dart';
 import '../services/auth.dart';
 import '../services/validators.dart';
@@ -102,12 +103,12 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       key: Keys.signInEmailButton,
       onPressed: !submitEnabled ? null : () => _submit(auth),
       style: ElevatedButton.styleFrom(
-        primary: Color.fromRGBO(11, 11, 56, 1),
+        primary: AppColors.primary,
         minimumSize: const Size(120.0, 40.0),
       ),
       child: Text(
           widget.formType == EmailSignInFormType.signup ? 'Create an Account' : 'Sign in',
-          style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold)
+          style: const TextStyle(fontSize: 20.0, color: AppColors.textLight, fontWeight: FontWeight.bold)
       ),
     );
   }
@@ -117,8 +118,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       key: Keys.signInFormEmailField,
       onPressed: widget.isLoading! ? null : widget.switchFormType,
       style: ElevatedButton.styleFrom(
-        primary: Colors.white70,
-        minimumSize: const Size(150.0, 20.0),
+        minimumSize: const Size(200.0, 24.0),
       ),
       child: Text(widget.formType == EmailSignInFormType.signup ? 'Have an account? Sign in' : 'Need an account? Sign up'),
     );

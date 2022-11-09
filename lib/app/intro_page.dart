@@ -29,7 +29,6 @@ class IntroductionPage extends StatelessWidget with Keys {
 
   _buildContent(BuildContext context) {
     return Container(
-        constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/background_image.png"),

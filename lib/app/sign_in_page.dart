@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geoquiz/common/colors.dart';
 import 'package:geoquiz/common/elevated_button_side_icon.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/spaced_column.dart';
@@ -92,20 +93,22 @@ class SignInPageState extends State<SignInPage> {
 
   Widget _buildContent(AuthBase auth) {
     return Container(
-      constraints: const BoxConstraints.expand(),
+      alignment: Alignment.center,
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/images/background_image.png"),
-              fit: BoxFit.cover)),
+              fit: BoxFit.cover
+          )),
       child: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SpacedColumn(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: 16.0,
+              spacing: 32.0,
               children: [
-                Container(
+                Card(
+                  color: Colors.white54,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: SignInForm(
@@ -123,7 +126,7 @@ class SignInPageState extends State<SignInPage> {
                   child: SpacedColumn(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 20.0,
+                    spacing: 12.0,
                     children: _buildSocialButtons(auth, context),
                   ),
                 ),
@@ -167,6 +170,8 @@ class SignInPageState extends State<SignInPage> {
         key: Keys.signInAnonymouslyButton,
         onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
         text: 'Sign in anonymously',
+        backgroundColor: AppColors.secondary,
+        textStyle: const TextStyle(color: AppColors.textDark),
       ),
     ];
   }
