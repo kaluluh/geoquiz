@@ -1,21 +1,23 @@
 class Stats {
   final int level;
-  final int XP;
-  final int highscore;
-  final int best_streak;
+  final int xp;
+  final int highScore;
+  final int bestStreak;
+  final int leaderBoard;
 
-  Stats(this.level,this.XP,this.highscore,this.best_streak);
+  Stats(this.level,this.xp,this.highScore,this.bestStreak,this.leaderBoard);
 
   Map<String,dynamic> toMap() {
     return {
       'level': level,
-      'XP': XP,
-      'highscore': highscore,
-      'best_streak': best_streak
+      'XP': xp,
+      'highScore': highScore,
+      'bestStreak': bestStreak,
+      'leaderBoard': leaderBoard,
     };
   }
 
   factory Stats.fromMap(Map<String, dynamic> data) {
-    return Stats(data['level'], data['XP'], data['highscore'], data['best_streak']);
+    return Stats(data['level'], data['xp'], data['highScore'], data['bestStreak'],data['leaderBoard']);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoquiz/services/api_path.dart';
 
+import '../models/city.dart';
 import '../models/stats.dart';
 import '../models/user.dart';
 import 'firestore_service.dart';
@@ -12,6 +13,8 @@ abstract class Database {
 
   Future<void> setStats(Stats stats);
   Stream<Stats> getStats();
+
+  Future<void> setCityDetails(City city);
 }
 
 class FirestoreDatabase implements Database {
@@ -20,6 +23,7 @@ FirestoreDatabase({required this.uid});
 
   final _service = FirestoreService.instance;
 
+  @override
   Future<void> setUserDeatils(User userData) => _service.setData(
       path: APIPath.users(uid),
       data: userData.toMap(),
@@ -43,4 +47,9 @@ FirestoreDatabase({required this.uid});
     builder: (data, documentId) => Stats.fromMap(data),
   );
 
+  @override
+  Future<void> setCityDetails(City city) => _service.setData(
+    path: APIPath.cities(uid, city.name),
+    data: city.toMap(),
+  );
 }

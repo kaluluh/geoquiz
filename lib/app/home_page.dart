@@ -1,11 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:geoquiz/models/city.dart';
 import 'package:geoquiz/services/auth.dart';
 import 'package:geoquiz/services/database.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
 import '../models/stats.dart';
 import '../models/user.dart';
+import '../services/city_data_service.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -20,20 +23,13 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Future<void> _createUserDetails(BuildContext context) async {
-    try{
-      final database = Provider.of<Database>(context,listen:false);
-      await database.setUserDeatils(
-          User(auth.currentUser?.uid,"Klaudia", "Szucs", "Hungary"));
-    } on FirebaseException catch(e){
-      print(e.toString());
-    }
-  }
-
-  _createRandomData(BuildContext context){
+  _createInitData(BuildContext context){
     final database = Provider.of<Database>(context,listen: false);
-    _createUserDetails(context);
-    database.setStats(Stats(2, 69, 666, 666));
+    var name = auth.currentUser?.isAnonymous == true ? "anonymous": auth.currentUser?.email?.split('@')[0];
+    if( name != null) {
+      database.setUserDeatils(User(auth.currentUser?.uid,name, "Hungary"));
+    }
+    database.setStats(Stats(0, 0, 0, 0,0));
   }
 
   @override
@@ -55,18 +51,17 @@ class HomePage extends StatelessWidget {
 
   Widget _buildDashboard(BuildContext context) {
     final database = Provider.of<Database>(context,listen: false);
+    _createInitData(context);
     return StreamBuilder<User>(
         stream: database.userDetailStream(),
         builder: (context,snapshot){
           if(snapshot.hasData) {
             final userdata = snapshot.data!;
-            final username = "${userdata.first_name} ${userdata.last_name}";
-
             final User user = snapshot.data!;
             return Column(
               children: [
                 Text(
-                  'Welcome $username',
+                  'Welcome ${userdata.name}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
                 ),
@@ -75,12 +70,8 @@ class HomePage extends StatelessWidget {
                   onPressed: () {},
                   child: const Text('Start Quiz'),
                 ),
-                ElevatedButton(
-                  // onPressed: () => {},
-                  onPressed: () => _createRandomData(context),
-                  child: const Text('Create Random Data to the Database'),
-                ),
                 _getStats(context),
+                _getCityData(context)
               ],
             );
           }
@@ -89,39 +80,59 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _getCityData(BuildContext context) {
+    var city = CityDaraService.fetchCityData("Budapest");
+    return FutureBuilder<City>(
+        future: city,
+        builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        return Text(snapshot.data!.name);
+      } else if (snapshot.hasError) {
+        return Text('${snapshot.error}');
+      }
+      return const CircularProgressIndicator();
+      },
+    );
+  }
+
+
   Widget _getStats(BuildContext context) {
     final database = Provider.of<Database>(context,listen: false);
     return StreamBuilder<Stats>(
         stream: database.getStats(),
         builder: (context,snapshot) {
-          // if(snapshot.hasData) {
+          if(snapshot.hasData) {
             final stats = snapshot.data!;
-
             return Column(
               children: [
                 Text(
-                  'XP ${stats.XP}',
+                  'XP ${stats.xp}',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  'highscore ${stats.highscore}',
+                  'highscore ${stats.highScore}',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  'Best streak ${stats.best_streak}',
+                  'Best streak ${stats.bestStreak}',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),Text(
                   'Level ${stats.level}',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                ), Text(
+                'Leader board ${stats.leaderBoard}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                 ),
               ],
             );
           }
-        // }
+          return const Center(child:CircularProgressIndicator());
+        }
     );
   }
 }
