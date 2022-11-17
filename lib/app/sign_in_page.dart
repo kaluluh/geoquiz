@@ -6,6 +6,7 @@ import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/spaced_column.dart';
 import 'package:provider/provider.dart';
 
+import '../common/page_wrapper.dart';
 import '../services/auth.dart';
 import 'sign_in_form.dart';
 
@@ -85,21 +86,9 @@ class SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = Provider.of<AuthBase>(context);
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/background_image.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-
-      child: Scaffold(
-        body: _buildContent(auth),
-        backgroundColor: Colors.transparent,
-      ),
+    return PageWrapper(
+      backgroundImage: const AssetImage("assets/images/background_image.png"),
+      child: _buildContent(auth),
     );
   }
 

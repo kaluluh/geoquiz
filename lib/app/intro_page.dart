@@ -3,8 +3,6 @@ import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/page_wrapper.dart';
 
-import '../common/spaced_column.dart';
-
 class IntroductionPage extends StatelessWidget with Keys {
   const IntroductionPage({Key? key}) : super(key: key);
 
@@ -22,7 +20,10 @@ class IntroductionPage extends StatelessWidget with Keys {
 
   @override
   Widget build(BuildContext context) {
-    return PageWrapper(child: _buildContent(context), backgroundImage: 'assets/images/background_image.png');
+    return PageWrapper(
+        backgroundImage: const AssetImage("assets/images/background_image.png"),
+        child: _buildContent(context),
+    );
   }
 
   _buildContent(BuildContext context) {

@@ -8,20 +8,22 @@ class PageWrapper extends StatelessWidget {
   }) : super(key: key);
 
   final Widget child;
-  final String? backgroundImage;
+  final AssetImage? backgroundImage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
+        decoration: backgroundImage != null ? BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/background_image.png"),
-                fit: BoxFit.cover)),
+                image: backgroundImage!,
+                fit: BoxFit.cover
+            )
+        ) : null,
         child: Scaffold(
           body: child,
-          // backgroundColor: Colors.purple.withOpacity(0.5),
+          backgroundColor: Colors.transparent,
         ));
   }
 }
