@@ -35,11 +35,14 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
     final AuthBase auth = Provider.of<AuthBase>(context, listen: false);
     return SpacedColumn(
       crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 8.0,
+      spacing: 12.0,
       children: [
         _buildEmailTextField(),
         _buildPasswordTextField(auth),
         _buildSubmitButton(auth),
+        const SizedBox(
+          height: 4.0,
+        ),
         if (widget.switchFormType != null) _buildSwitchFormTypeButton(),
       ],
     );
@@ -53,10 +56,9 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white70,
+        fillColor: Colors.transparent,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
         ),
         labelText: 'Email',
         errorText: showErrorText ? emailValidator.errorText : null,
@@ -80,10 +82,9 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white70,
+        fillColor: Colors.transparent,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
         ),
         labelText: 'Password',
         errorText: showErrorText ? passwordValidator.errorText : null,
@@ -107,7 +108,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
         minimumSize: const Size(120.0, 40.0),
       ),
       child: Text(
-          widget.formType == EmailSignInFormType.signup ? 'Create an Account' : 'Sign in',
+          widget.formType == EmailSignInFormType.signup ? 'Sign up' : 'Sign in',
           style: const TextStyle(fontSize: 20.0, color: AppColors.textLight, fontWeight: FontWeight.bold)
       ),
     );
@@ -120,7 +121,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(200.0, 24.0),
       ),
-      child: Text(widget.formType == EmailSignInFormType.signup ? 'Have an account? Sign in' : 'Need an account? Sign up'),
+      child: Text(widget.formType == EmailSignInFormType.signup ? 'Already have an account? Sign in' : 'Need a new account? Sign up'),
     );
   }
 

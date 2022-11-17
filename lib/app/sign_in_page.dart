@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geoquiz/common/colors.dart';
 import 'package:geoquiz/common/elevated_button_side_icon.dart';
+import 'package:geoquiz/common/headings.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/spaced_column.dart';
 import 'package:provider/provider.dart';
@@ -93,46 +96,64 @@ class SignInPageState extends State<SignInPage> {
   }
 
   Widget _buildContent(AuthBase auth) {
-    return Container(
-      alignment: Alignment.center,
-      child: SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SpacedColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: 32.0,
-              children: [
-                Card(
-                  color: Colors.white54,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SignInForm(
-                      formType: _formType,
-                      switchFormType: _switchFormType,
-                      isLoading: isLoading,
-                      setIsLoading: (isLoading) =>
-                          setState(() => this.isLoading = isLoading),
-                      onSignedIn: widget.onSignedIn,
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+      child: Container(
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SpacedColumn(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 32.0,
+                children: [
+                  Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SpacedColumn(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 16.0,
+                        children: [
+                          Heading(text: _formType == EmailSignInFormType.login
+                              ? 'Sign in'
+                              : 'Create an account',
+                              level: Headings.h1,
+                              textAlign: TextAlign.center,
+                          ),
+                          SignInForm(
+                            formType: _formType,
+                            switchFormType: _switchFormType,
+                            isLoading: isLoading,
+                            setIsLoading: (isLoading) =>
+                                setState(() => this.isLoading = isLoading),
+                            onSignedIn: widget.onSignedIn,
+                          ),
+                        ]
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                  child: SpacedColumn(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 12.0,
-                    children: _buildSocialButtons(auth, context),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100.0),
+                    child: SpacedColumn(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: 12.0,
+                      children: _buildSocialButtons(auth, context),
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ),
       ),
     );
   }
 
   List<Widget> _buildSocialButtons(AuthBase auth, BuildContext context) {
+    const double iconSize = 24.0;
+    const double buttonHeight = 48.0;
     return [
       ElevatedButtonSideIcon(
         key: Keys.signInWithGoogleButton,
@@ -142,11 +163,12 @@ class SignInPageState extends State<SignInPage> {
             : 'Sign in with Google',
         icon: SvgPicture.asset(
           'assets/images/google-logo.svg',
-          width: 24.0,
-          height: 24.0,
+          width: iconSize,
+          height: iconSize,
         ),
         backgroundColor: Colors.white,
         textStyle: const TextStyle(color: Colors.black87),
+        height: buttonHeight,
       ),
       ElevatedButtonSideIcon(
         key: Keys.signInWithFacebookButton,
@@ -156,11 +178,12 @@ class SignInPageState extends State<SignInPage> {
             : 'Sign in with Facebook',
         icon: SvgPicture.asset(
           'assets/images/facebook-logo.svg',
-          width: 24.0,
-          height: 24.0,
+          width: iconSize,
+          height: iconSize,
         ),
         backgroundColor: Colors.white,
         textStyle: const TextStyle(color: Colors.black87),
+        height: buttonHeight,
       ),
       ElevatedButtonSideIcon(
         key: Keys.signInAnonymouslyButton,
@@ -168,6 +191,7 @@ class SignInPageState extends State<SignInPage> {
         text: 'Sign in anonymously',
         backgroundColor: AppColors.secondary,
         textStyle: const TextStyle(color: AppColors.textDark),
+        height: buttonHeight,
       ),
     ];
   }
