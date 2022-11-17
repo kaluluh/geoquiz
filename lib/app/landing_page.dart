@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geoquiz/app/home_page.dart';
+import 'package:geoquiz/app/dashboard_page.dart';
 import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return const IntroductionPage();
           }
-          return const HomePage();
+          return const DashboardPage();
         }
         return Container(
           color: Colors.red,

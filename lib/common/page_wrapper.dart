@@ -4,11 +4,13 @@ class PageWrapper extends StatelessWidget {
   const PageWrapper({
     Key? key,
     required this.child,
-    this.backgroundImage
+    this.backgroundImage,
+    this.bottomNav
   }) : super(key: key);
 
   final Widget child;
   final AssetImage? backgroundImage;
+  final BottomNavigationBar? bottomNav;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class PageWrapper extends StatelessWidget {
         child: Scaffold(
           body: child,
           backgroundColor: Colors.transparent,
+          bottomNavigationBar: bottomNav,
         ));
   }
 }
