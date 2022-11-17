@@ -6,6 +6,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
   final Widget? icon;
   final Color? backgroundColor;
   final TextStyle? textStyle;
+  final double? height;
 
   const ElevatedButtonSideIcon({
     Key? key,
@@ -14,6 +15,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.textStyle,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
+        minimumSize: height != null ? Size(0, height!) : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
