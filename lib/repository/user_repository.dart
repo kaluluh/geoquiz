@@ -18,6 +18,10 @@ class UserRepository {
     data: user.toMap(),
   );
 
+  Future<void> deleteUser (User user) => _service.deleteData(
+    path: APIPath.users(_uid)
+  );
+
   Stream<User> getUserById(String userId) => _service.documentStream(
     path: APIPath.users(userId),
     builder: (data, documentId) => User.fromMap(data),
