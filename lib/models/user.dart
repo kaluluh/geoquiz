@@ -1,12 +1,10 @@
-import 'friend.dart';
-
 class User {
   final String? uid;
   final String name;
   final String country;
-  final List<dynamic> friends;
+  final List<String> friends;
 
-  User(this.uid, this.name, this.country,[this.friends = const <Friend>[] ]);
+  User(this.uid, this.name, this.country,this.friends);
 
   Map<String,dynamic> toMap() {
     return {
@@ -17,7 +15,10 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> data, String documentId) {
-    return User(documentId, data['name'], data['country'],data['friends']);
+  String toString() {
+    return "$name $uid $country $friends";
+  }
+  factory User.fromMap(Map<String, dynamic> data) {
+    return User(data['uid'], data['name'], data['country'],data['friends'].cast<String>());
   }
 }

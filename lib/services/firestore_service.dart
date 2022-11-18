@@ -1,9 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
+
+  final FirebaseFirestore store = FirebaseFirestore.instance;
+
+  Stream<Iterable<T>> getCollectionStream<T>(
+      String path, T Function(Map<String, dynamic>) converter) {
+    print("Get collection items at $path");
+
+    final Stream<QuerySnapshot<Map<String, dynamic>>> snapshots =
+    store.collection(path).snapshots();
+
+    return snapshots.map((collectionSnapshot) {
+      final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents =
+          collectionSnapshot.docs;
+
+      return documents
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> document) {
+        final Map<String, dynamic> data = document.data();
+        return converter(data);
+      });
+    });
+  }
 
   Future<void> setData({
     required String path,
@@ -18,29 +38,6 @@ class FirestoreService {
     final reference = FirebaseFirestore.instance.doc(path);
     print('delete: $path');
     await reference.delete();
-  }
-
-  Stream<List<T>> collectionStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    Query Function(Query query)? queryBuilder,
-    int Function(T lhs, T rhs)? sort,
-  }) {
-    Query query = FirebaseFirestore.instance.collection(path);
-    if (queryBuilder != null) {
-      query = queryBuilder(query);
-    }
-    final snapshots = query.snapshots();
-    return snapshots.map((snapshot) {
-      final result = snapshot.docs
-          .map((snapshot) => builder(snapshot.data() as Map<String, dynamic>, snapshot.id))
-          .where((value) => value != null)
-          .toList();
-      if (sort != null) {
-        result.sort(sort);
-      }
-      return result;
-    });
   }
 
   Stream<T> documentStream<T>({

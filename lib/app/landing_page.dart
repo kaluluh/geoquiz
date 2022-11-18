@@ -5,7 +5,7 @@ import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth.dart';
-import '../services/database.dart';
+import '../repository/database.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key, required this.auth}) : super(key: key);
