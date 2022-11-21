@@ -7,6 +7,7 @@ import 'package:geoquiz/common/elevated_button_side_icon.dart';
 import 'package:geoquiz/common/headings.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/common/spaced_column.dart';
+import 'package:geoquiz/controller/user_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../common/page_wrapper.dart';
@@ -29,6 +30,8 @@ class SignInPageState extends State<SignInPage> {
   late EmailSignInFormType _formType;
   bool isLoading = false;
 
+  final UserController _userController = UserController();
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +44,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInAnonymously();
+      _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
@@ -58,6 +62,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInWithGoogle();
+      _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
@@ -75,6 +80,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInWithFacebook();
+      _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geoquiz/app/home_page.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
+import 'package:geoquiz/controller/user_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../common/colors.dart';
@@ -26,6 +26,8 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+
+  final UserController _userController = UserController();
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
@@ -144,6 +146,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
         await auth.signInWithEmailAndPassword(_email, _password);
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
+        _userController.setUserData(auth);
       }
       widget.onSignedIn?.call();
     } catch (e) {

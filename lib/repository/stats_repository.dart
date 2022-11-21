@@ -6,16 +6,15 @@ import '../services/firestore_service.dart';
 class StatsRepository {
   StatsRepository();
 
-  final _uid = FirebaseDataSource.instance.currentUser!.uid;
   final _service = FirestoreService.instance;
 
-  Future<void> setStats(Stats stats) => _service.setData(
-    path: APIPath.stats(_uid),
+  Future<void> setStats(uid,Stats stats) => _service.setData(
+    path: APIPath.stats(uid),
     data: stats.toMap(),
   );
 
-  Stream<Stats> getStats() => _service.documentStream(
-    path: APIPath.stats(_uid),
+  Stream<Stats> getStats(uid) => _service.documentStream(
+    path: APIPath.stats(uid),
     builder: (data, documentId) => Stats.fromMap(data),
   );
 }
