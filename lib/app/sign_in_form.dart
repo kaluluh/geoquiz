@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../common/colors.dart';
 import '../common/spaced_column.dart';
-import '../services/auth.dart';
-import '../services/validators.dart';
+import '../services/firebase/auth.dart';
+import '../services/firebase/validators.dart';
 
 class SignInForm extends StatefulWidget with Keys {
   const SignInForm({Key? key, required this.formType, required this.switchFormType, required this.isLoading, required this.setIsLoading, this.onSignedIn}) : super(key: key);

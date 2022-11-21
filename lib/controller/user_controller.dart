@@ -1,10 +1,11 @@
 import 'package:geoquiz/controller/dtos/userdto.dart';
 import 'package:geoquiz/repository/stats_repository.dart';
 import 'package:geoquiz/repository/user_repository.dart';
-import 'package:geoquiz/services/auth.dart';
 
 import '../models/stats.dart';
 import '../models/user.dart';
+import '../services/firebase/auth.dart';
+import 'dtos/Friend.dart';
 
 class UserController {
   late UserRepository _userRepository;
@@ -29,10 +30,17 @@ class UserController {
 
   Future<UserDTO> getUserData(userId) async {
     var user = await _userRepository.getUserById(userId).first;
+    List<Friend> friends = <Friend>[];
+    if(user.friends.isNotEmpty){
+      user.friends.forEach((friendId) async {
+        var user = await _userRepository.getUserById(friendId).first;
+        friends.add(Friend(user.name, user.uid!));
+      });
+    }
     var stats = await _statsRepository.getStats(userId).first;
-   return  UserDTO(user.uid!,
+   return UserDTO(user.uid!,
        user.name,
-       user.friends,
+       friends,
        stats.level,
        stats.xp,
        stats.highScore,
@@ -40,7 +48,20 @@ class UserController {
        stats.leaderBoard);
   }
 
-  // Future<User> _getUser(userId) async {
-  //   return await _userRepository.getUserById(userId).first;
-  // }
+  void updateStats(uid,stats) {
+    // TO DO .. DTO CLASS
+    _statsRepository.setStats(uid, stats);
+  }
+
+  void addFriend(userId,newFriendId) {
+    _userRepository.addFriends(userId, newFriendId);
+  }
+
+  void deleteFriend(userId,newFriendId) {
+    _userRepository.removeFriends(userId, newFriendId);
+  }
+
+  Future<List<User>> getAllFriendsOptions() async {
+    return _userRepository.getAllUsers();
+  }
 }

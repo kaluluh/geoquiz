@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/controller/user_controller.dart';
 import 'package:geoquiz/models/user.dart';
-import 'package:geoquiz/services/auth.dart';
 import 'package:provider/provider.dart';
 
 import '../common/navigation.dart';
 import '../common/page_wrapper.dart';
 import '../controller/dtos/userdto.dart';
+import '../services/firebase/auth.dart';
 
 class DashboardPage extends StatelessWidget with Keys {
   const DashboardPage({Key? key}) : super(key: key);
@@ -24,7 +24,6 @@ class DashboardPage extends StatelessWidget with Keys {
   @override
   Widget build(BuildContext context){
     final AuthBase auth = Provider.of<AuthBase>(context);
-    final UserController userController = UserController();
     return PageWrapper(
       backgroundImage: const AssetImage("assets/images/background_image.png"),
       bottomNav: createBottomNavigation(),
@@ -34,7 +33,6 @@ class DashboardPage extends StatelessWidget with Keys {
 
   Widget _buildContent(AuthBase auth) {
     final UserController userController = UserController();
-
     return FutureBuilder(
         future: userController.getUserData(auth.currentUser!.uid),
         builder: (BuildContext context, AsyncSnapshot<UserDTO> snapshot) {

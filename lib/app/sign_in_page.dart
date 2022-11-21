@@ -11,7 +11,7 @@ import 'package:geoquiz/controller/user_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../common/page_wrapper.dart';
-import '../services/auth.dart';
+import '../services/firebase/auth.dart';
 import 'sign_in_form.dart';
 
 enum EmailSignInFormType { login, signup }
