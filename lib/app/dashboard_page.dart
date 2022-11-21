@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/common/keys.dart';
+import 'package:geoquiz/controller/user_controller.dart';
+import 'package:geoquiz/models/user.dart';
 import 'package:geoquiz/services/auth.dart';
 import 'package:provider/provider.dart';
 
 import '../common/navigation.dart';
 import '../common/page_wrapper.dart';
+import '../controller/dtos/userdto.dart';
 
 class DashboardPage extends StatelessWidget with Keys {
   const DashboardPage({Key? key}) : super(key: key);
@@ -17,9 +20,11 @@ class DashboardPage extends StatelessWidget with Keys {
     }
   }
 
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     final AuthBase auth = Provider.of<AuthBase>(context);
+    final UserController userController = UserController();
     return PageWrapper(
       backgroundImage: const AssetImage("assets/images/background_image.png"),
       bottomNav: createBottomNavigation(),
@@ -28,6 +33,153 @@ class DashboardPage extends StatelessWidget with Keys {
   }
 
   Widget _buildContent(AuthBase auth) {
+    final UserController userController = UserController();
+
+    return FutureBuilder(
+        future: userController.getUserData(auth.currentUser!.uid),
+        builder: (BuildContext context, AsyncSnapshot<UserDTO> snapshot) {
+          if (!snapshot.hasData) return Container(); // still loading
+          // alternatively use snapshot.connectionState != ConnectionState.done
+          final UserDTO userDTO = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 100.0,
+                  width: double.infinity,
+                  child: Card(
+                    color: Colors.white54,
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text("${userDTO.name}"),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                Container(
+                  height: 200.0,
+                  width: double.infinity,
+                  child: const Card(
+                    color: Colors.white54,
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text("data"),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 50.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () => {},
+                      label: const Text(
+                        "QuickPlay",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 18.0,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromRGBO(30, 197, 187, 1),
+                        minimumSize: const Size(30.0, 80.0),
+                      ),
+                    ),
+                    SizedBox(width: 50.0),
+                    ElevatedButton.icon(
+                      onPressed: () => _signOut(auth),
+                      label: const Text(
+                        "Sign out",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 20.0,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromRGBO(30, 197, 187, 1),
+                        minimumSize: const Size(30.0, 80.0),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Container(
+                  height: 150.0,
+                  width: double.infinity,
+                  child: Card(
+                    color: Colors.white54,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Text("Friends"),
+                              const SizedBox(
+                                width: 20.0,
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: ElevatedButton.icon(
+                                  onPressed: () => {},
+                                  label: const Text(
+                                    "add Friends",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.add,
+                                    size: 16.0,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: const Color.fromRGBO(30, 197, 187, 1),
+                                    minimumSize: const Size(10.0, 10.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text("Name"),
+                          Divider(
+                            color: Colors.black,
+                          ),
+                          Text("Name"),
+                          Divider(
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+
+          // return a widget here (you have to return a widget to the builder)
+        });
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -154,8 +306,6 @@ class DashboardPage extends StatelessWidget with Keys {
                     Divider(
                       color: Colors.black,
                     ),
-
-
                   ],
                 ),
               ),
@@ -165,4 +315,5 @@ class DashboardPage extends StatelessWidget with Keys {
       ),
     );
   }
+
 }
