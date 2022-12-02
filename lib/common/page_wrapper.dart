@@ -5,11 +5,13 @@ class PageWrapper extends StatelessWidget {
     Key? key,
     required this.child,
     this.backgroundImage,
+    this.backgroundColor,
     this.bottomNav
   }) : super(key: key);
 
   final Widget child;
   final AssetImage? backgroundImage;
+  final Color? backgroundColor;
   final BottomNavigationBar? bottomNav;
 
   @override
@@ -17,6 +19,7 @@ class PageWrapper extends StatelessWidget {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
+        color: backgroundImage == null ? backgroundColor : null,
         decoration: backgroundImage != null ? BoxDecoration(
             image: DecorationImage(
                 image: backgroundImage!,
