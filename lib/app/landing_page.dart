@@ -5,6 +5,7 @@ import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth.dart';
+import 'game_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return const IntroductionPage();
           }
-          return const HomePage();
+          return const GamePage();
         }
         return Container(
           color: Colors.red,
