@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geoquiz/app/home_page.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:provider/provider.dart';
