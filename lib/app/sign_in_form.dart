@@ -27,8 +27,6 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
-  // if I put this here some of the tests fails
-  // final UserController _userController = UserController();
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
@@ -147,7 +145,6 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
         await auth.signInWithEmailAndPassword(_email, _password);
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
-        // _userController.setUserData(auth);
       }
       widget.onSignedIn?.call();
     } catch (e) {

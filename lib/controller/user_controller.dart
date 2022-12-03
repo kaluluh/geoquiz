@@ -17,8 +17,8 @@ class UserController {
     _statsRepository = StatsRepository();
   }
 
-  //To set the user data
-  Future<void> setUserData(AuthBase auth) async {
+  //To initialize the signed user
+  Future<void> initializeUser(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
     if(_userRepository.checkUserExist(uid) == false){
       var name = auth.currentUser?.isAnonymous == true ? "anonymous": auth.currentUser?.email?.split('@')[0];
