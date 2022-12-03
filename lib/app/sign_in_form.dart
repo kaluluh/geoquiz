@@ -27,6 +27,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
+  // if I put this here some of the tests fails
   // final UserController _userController = UserController();
 
   String get _email => _emailController.text;
