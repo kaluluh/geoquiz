@@ -153,24 +153,24 @@ class SignInPageState extends State<SignInPage> {
 
   List<Widget> _buildSocialButtons(AuthBase auth, BuildContext context) {
     const double iconSize = 24.0;
-    const double buttonHeight = 48.0;
+    const double buttonHeight = 45.0;
     return [
       ElevatedButtonSideIcon(
-        key: Keys.signInWithGoogleButton,
-        onPressed: isLoading ? null : () => _signInWithGoogle(auth, context),
-        text: _formType == EmailSignInFormType.signup
-            ? 'Sign up with Google'
-            : 'Sign in with Google',
-        icon: SvgPicture.asset(
-          'assets/images/google-logo.svg',
-          width: iconSize,
-          height: iconSize,
-        ),
-        backgroundColor: Colors.white,
-        textStyle: const TextStyle(color: Colors.black87),
-        height: buttonHeight,
-      ),
-      ElevatedButtonSideIcon(
+         key: Keys.signInWithGoogleButton,
+         onPressed: isLoading ? null : () => _signInWithGoogle(auth, context),
+         text: _formType == EmailSignInFormType.signup
+             ? 'Sign up with Google'
+             : 'Sign in with Google',
+         icon: SvgPicture.asset(
+           'assets/images/google-logo.svg',
+           width: iconSize,
+           height: iconSize,
+         ),
+         backgroundColor: Colors.white,
+         textStyle: const TextStyle(color: Colors.black87),
+         height: buttonHeight,
+       ),
+     ElevatedButtonSideIcon(
         key: Keys.signInWithFacebookButton,
         onPressed: isLoading ? null : () => _signInWithFacebook(auth, context),
         text: _formType == EmailSignInFormType.signup
@@ -185,7 +185,7 @@ class SignInPageState extends State<SignInPage> {
         textStyle: const TextStyle(color: Colors.black87),
         height: buttonHeight,
       ),
-      ElevatedButtonSideIcon(
+     ElevatedButtonSideIcon(
         key: Keys.signInAnonymouslyButton,
         onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
         text: 'Sign in anonymously',

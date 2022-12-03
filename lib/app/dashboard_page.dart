@@ -47,12 +47,12 @@ class DashboardPage extends StatelessWidget with Keys {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: 100.0,
+                  height: 45.0,
                   width: double.infinity,
                   child: Card(
                     color: Colors.white54,
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(0.0),
                       child: Text("${userDTO.name}"),
                     ),
                   ),
