@@ -30,7 +30,7 @@ class SignInPageState extends State<SignInPage> {
   late EmailSignInFormType _formType;
   bool isLoading = false;
 
-  final UserController _userController = UserController();
+  // final UserController _userController = UserController();
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInAnonymously();
-      _userController.setUserData(auth);
+      // _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
@@ -62,7 +62,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInWithGoogle();
-      _userController.setUserData(auth);
+      // _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());
@@ -80,7 +80,7 @@ class SignInPageState extends State<SignInPage> {
         isLoading = true;
       });
       await auth.signInWithFacebook();
-      _userController.setUserData(auth);
+      // _userController.setUserData(auth);
       widget.onSignedIn?.call();
     } catch (e) {
       print(e.toString());

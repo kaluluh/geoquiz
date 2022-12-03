@@ -7,6 +7,7 @@ import '../models/user.dart';
 import '../services/firebase/auth.dart';
 import 'dtos/Friend.dart';
 
+//Routes the incoming requests towards to the business logic
 class UserController {
   late UserRepository _userRepository;
   late StatsRepository _statsRepository;
@@ -16,6 +17,7 @@ class UserController {
     _statsRepository = StatsRepository();
   }
 
+  //To set the user data
   Future<void> setUserData(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
     if(_userRepository.checkUserExist(uid) == false){
@@ -28,6 +30,7 @@ class UserController {
     }
   }
 
+  //Get user data by Id, returning with a UserDTO instance
   Future<UserDTO> getUserData(userId) async {
     var user = await _userRepository.getUserById(userId).first;
     List<Friend> friends = <Friend>[];
