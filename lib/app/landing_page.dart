@@ -4,7 +4,7 @@ import 'package:geoquiz/app/dashboard_page.dart';
 import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
 
-import '../services/auth.dart';
+import '../services/firebase/auth.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);

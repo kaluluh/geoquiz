@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/landing_page.dart';
 import 'package:geoquiz/common/colors.dart';
-import 'package:geoquiz/services/auth.dart';
+import 'package:geoquiz/services/firebase/auth.dart';
 import 'package:provider/provider.dart';
 
-import 'firebase_options.dart';
+import 'services/firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

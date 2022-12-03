@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geoquiz/services/validators.dart';
+import 'package:geoquiz/services/firebase/validators.dart';
 
 void main(){
   // Validator tests
