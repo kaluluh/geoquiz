@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/controller/user_controller.dart';
-import 'package:geoquiz/models/user.dart';
 import 'package:provider/provider.dart';
 
 import '../common/navigation.dart';
