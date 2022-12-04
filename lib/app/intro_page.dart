@@ -66,23 +66,27 @@ class IntroductionPage extends StatelessWidget with Keys {
             style: ElevatedButton.styleFrom(
               primary: Color.fromRGBO(30, 197, 187, 1),
               minimumSize: const Size(140.0, 70.0),
+              shadowColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
             ),
             child: const Text(
-              'Play',
+              'PLAY',
               style: TextStyle(
                 shadows: <Shadow>[
                   Shadow(
                     offset: Offset(1.0, 1.0),
                     blurRadius: 2.0,
-                    color: Colors.black,
+                    color: Colors.grey,
                   ),
                 ],
-                fontSize: 40.0,
+                fontSize: 39.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30.0,
           ),
           Row(
@@ -95,18 +99,26 @@ class IntroductionPage extends StatelessWidget with Keys {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(120.0, 48.0),
                     primary: Color.fromRGBO(253, 205, 28, 1),
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   child: const Text(
                     'Log In',
                     style: TextStyle(fontSize: 16.0, color: Colors.black),
                   ),
                 ),
-                SizedBox(width: 10.0),
+                const SizedBox(width: 10.0),
                 ElevatedButton(
                   onPressed: () => _openSignInPage(context, true),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(120.0, 48.0),
                     primary: Color.fromRGBO(11, 11, 56, 1),
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   child: const Text('Sign Up',
                       style: TextStyle(fontSize: 16.0, color: Colors.white)),
