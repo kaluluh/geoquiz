@@ -65,6 +65,17 @@ extension GameDifficultyExtension on GameDifficulty {
         return 0.075;
     }
   }
+
+  double get maxDistance {
+    switch (this) {
+      case GameDifficulty.easy:
+        return 5000;
+      case GameDifficulty.medium:
+        return 2500;
+      case GameDifficulty.hard:
+        return 1000;
+    }
+  }
 }
 
 enum GameState{
@@ -81,6 +92,7 @@ class GameInfo {
   final GameState gameState;
   final int score;
   final int guessCount;
+  final int combo;
   final int lives;
 
   final City? currentCity;
@@ -93,6 +105,7 @@ class GameInfo {
     this.gameState = GameState.notStarted,
     this.score = 0,
     this.guessCount = 0,
+    this.combo = 0,
     this.lives = maxLives,
     this.currentCity,
   });
@@ -103,6 +116,7 @@ class GameInfo {
     GameState? gameState,
     int? score,
     int? guessCount,
+    int? combo,
     int? lives,
     City? currentCity,
   }) {
@@ -112,6 +126,7 @@ class GameInfo {
       gameState: gameState ?? this.gameState,
       score: score ?? this.score,
       guessCount: guessCount ?? this.guessCount,
+      combo: combo ?? this.combo,
       lives: lives ?? this.lives,
       currentCity: currentCity ?? this.currentCity,
     );
@@ -139,6 +154,9 @@ final gameControllerProvider = StateNotifierProvider<GameController, GameInfo>((
 class GameController extends StateNotifier<GameInfo> {
   GameController() : super(GameInfo());
 
+  static const perfectScore = 2500.0;
+  static const perfectCutoff = 0.01;
+
   int getMaxPopulation(){
     const double startMaxPop = 40000000.0;
     const double limit = 10000.0;
@@ -156,13 +174,6 @@ class GameController extends StateNotifier<GameInfo> {
   double getCapitalChance(){
     final result = tanh(state.difficulty.factor * state.guessCount) + 1;
     return max(result.toDouble(), 0.0);
-  }
-
-  double getMaxDistance(){
-    const double startMaxDist = 10000.0;
-    const double limit = 100.0;
-    final result = pow(startMaxDist, -(0.666666 * state.difficulty.factor * state.guessCount - 1));
-    return max(result.roundToDouble(), limit);
   }
 
   Future<City> getNextCity() async {
@@ -203,9 +214,18 @@ class GameController extends StateNotifier<GameInfo> {
   }
 
   double calculateScore(double distance){
-    final maxDist = getMaxDistance();
-    final score = maxDist - distance;
-    return max(score, 0.0);
+    // Perfect score is 2500, worst score is 0
+    // A perfect score is 1/100 of the max distance
+    // A worst score is the max distance
+    if (distance > state.difficulty.maxDistance) {
+      return 0;
+    }
+    if (distance <= state.difficulty.maxDistance * perfectCutoff) {
+      return perfectScore;
+    }
+    // Linear interpolation between perfect and worst score
+    final factor = 1 - (distance - perfectCutoff * state.difficulty.maxDistance) / (state.difficulty.maxDistance - perfectCutoff * state.difficulty.maxDistance);
+    return min(perfectScore * factor, perfectScore);
   }
 
   void startGame(GameType gameType, GameDifficulty gameDifficulty) async {
@@ -238,7 +258,7 @@ class GameController extends StateNotifier<GameInfo> {
         state.currentCity?.latitude ?? 0, state.currentCity?.longitude ?? 0
     );
     final score = calculateScore(distance).ceilToDouble();
-    final correct = distance < getMaxDistance();
+    final correct = distance < state.difficulty.maxDistance;
 
     state = state.copyWith(
       score: state.score + score.toInt(),
