@@ -19,9 +19,8 @@ class DashboardPage extends StatelessWidget with Keys {
     }
   }
 
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final AuthBase auth = Provider.of<AuthBase>(context);
     final ApplicationController userController = ApplicationController();
     userController.initializeUser(auth);
@@ -58,7 +57,7 @@ class DashboardPage extends StatelessWidget with Keys {
                 const SizedBox(
                   height: 30.0,
                 ),
-               _buildFriendsContainer(userDTO)
+                // _buildFriendsContainer(userDTO)
               ],
             ),
           );
@@ -66,35 +65,174 @@ class DashboardPage extends StatelessWidget with Keys {
         });
   }
 
-  Widget _buildNameContainer(userDTO) {
+  Widget _buildNameContainer(UserDTO userDTO) {
     return Container(
-      height: 45.0,
+      height: 120.0,
+      width: double.infinity,
+      child: Card(
+          color: Colors.white54,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/woman_avatar.png',
+                        width: 69.0,
+                        height: 69.0,
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        userDTO.name,
+                        style: const TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                      const SizedBox(width: 12,),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/hexagon_icon.png'),
+                              fit: BoxFit.cover,
+                            )
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 12),
+                            Text(
+                              '${userDTO.level}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]
+                  ),
+                  Row(
+                    children: [
+                     const SizedBox(width: 80,),
+                      Text(
+                        "XP: ${userDTO.xp}/500",
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.normal,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                    ],
+                  ),
+            ]),
+          )),
+    );
+  }
+
+  Widget _buildStatsContainer(UserDTO userDTO) {
+    return Container(
+      height: 240.0,
       width: double.infinity,
       child: Card(
         color: Colors.white54,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: Padding(
-          padding: EdgeInsets.all(0.0),
-          child: Text("${userDTO.name}"),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/stats_icon.png',
+                    width: 90.0,
+                    height: 90.0,
+                  ),
+                  const SizedBox(
+                    width: 70,
+                    height: 140,
+                  ),
+                  Image.asset(
+                    'assets/images/fire_icon.png',
+                    width: 90.0,
+                    height: 90.0,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Text(
+                    "HighScore",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Text(
+                    "Best Streak",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "${userDTO.highScore}",
+                    style: const TextStyle(
+                      fontSize: 21.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 145,
+                  ),
+                  Text(
+                    "${userDTO.bestStreak}",
+                    style: const TextStyle(
+                      fontSize: 21.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildStatsContainer (userDTO) {
-      return Container(
-        height: 200.0,
-        width: double.infinity,
-        child: const Card(
-          color: Colors.white54,
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text("data"),
-          ),
-        ),
-      );
-    }
-
-  Widget _displayButtons(auth){
+  Widget _displayButtons(auth) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,8 +250,12 @@ class DashboardPage extends StatelessWidget with Keys {
             size: 18.0,
           ),
           style: ElevatedButton.styleFrom(
-            primary: const Color.fromRGBO(30, 197, 187, 1),
-            minimumSize: const Size(30.0, 80.0),
+            primary: const Color.fromRGBO(253, 205, 28, 1),
+            shadowColor: Colors.black,
+            minimumSize: const Size(30.0, 70.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
           ),
         ),
         SizedBox(width: 50.0),
@@ -130,8 +272,12 @@ class DashboardPage extends StatelessWidget with Keys {
             size: 20.0,
           ),
           style: ElevatedButton.styleFrom(
-            primary: const Color.fromRGBO(30, 197, 187, 1),
-            minimumSize: const Size(30.0, 80.0),
+            primary: const Color.fromRGBO(11, 11, 56, 1),
+            minimumSize: const Size(30.0, 70.0),
+            shadowColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
           ),
         ),
       ],
@@ -193,5 +339,4 @@ class DashboardPage extends StatelessWidget with Keys {
       ),
     );
   }
-
 }

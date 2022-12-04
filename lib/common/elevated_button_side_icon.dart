@@ -7,6 +7,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
   final Color? backgroundColor;
   final TextStyle? textStyle;
   final double? height;
+  final TextOverflow? overflow;
 
   const ElevatedButtonSideIcon({
     Key? key,
@@ -16,6 +17,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
     this.backgroundColor,
     this.textStyle,
     this.height,
+    this.overflow,
   }) : super(key: key);
 
   @override
@@ -37,10 +39,15 @@ class ElevatedButtonSideIcon extends StatelessWidget {
             icon!,
             const SizedBox(width: 7),
           ],
-          Text(
-            text,
-            style: textStyle,
-          ),
+          Expanded(
+            child: Text(
+              text,
+              style: textStyle,
+              softWrap: false,
+              overflow: overflow,
+              maxLines: 1,
+            ),
+          )
         ],
       ),
     );

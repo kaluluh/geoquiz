@@ -161,6 +161,7 @@ class SignInPageState extends State<SignInPage> {
          text: _formType == EmailSignInFormType.signup
              ? 'Sign up with Google'
              : 'Sign in with Google',
+        overflow: TextOverflow.ellipsis,
          icon: SvgPicture.asset(
            'assets/images/google-logo.svg',
            width: iconSize,
@@ -176,6 +177,7 @@ class SignInPageState extends State<SignInPage> {
         text: _formType == EmailSignInFormType.signup
             ? 'Sign up with Facebook'
             : 'Sign in with Facebook',
+       overflow: TextOverflow.ellipsis,
         icon: SvgPicture.asset(
           'assets/images/facebook-logo.svg',
           width: iconSize,
@@ -189,6 +191,7 @@ class SignInPageState extends State<SignInPage> {
         key: Keys.signInAnonymouslyButton,
         onPressed: isLoading ? null : () => _signInAnonymously(auth, context),
         text: 'Sign in anonymously',
+        overflow: TextOverflow.ellipsis,
         backgroundColor: AppColors.secondary,
         textStyle: const TextStyle(color: AppColors.textDark),
         height: buttonHeight,
