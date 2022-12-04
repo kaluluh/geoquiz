@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geoquiz/services/city_data_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/city.dart';
+import '../services/api/city_data_service.dart';
 
 enum GameType{
   world,
