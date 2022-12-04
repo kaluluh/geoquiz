@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geoquiz/app/dashboard_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
+import 'package:geoquiz/app/game_page.dart';
 import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
-
 import '../services/auth.dart';
+import 'dashboard_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -20,7 +21,9 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return const IntroductionPage();
           }
-          return const DashboardPage();
+          return const ProviderScope(
+            child: DashboardPage(),
+          );
         }
         return Container(
           color: Colors.red,
