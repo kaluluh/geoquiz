@@ -58,7 +58,7 @@ class DashboardPage extends StatelessWidget with Keys {
                 const SizedBox(
                   height: 30.0,
                 ),
-               _buildFriendsContainer(userDTO)
+               // _buildFriendsContainer(userDTO)
               ],
             ),
           );
@@ -66,7 +66,7 @@ class DashboardPage extends StatelessWidget with Keys {
         });
   }
 
-  Widget _buildNameContainer(userDTO) {
+  Widget _buildNameContainer(UserDTO userDTO) {
     return Container(
       height: 45.0,
       width: double.infinity,
@@ -80,15 +80,46 @@ class DashboardPage extends StatelessWidget with Keys {
     );
   }
 
-  Widget _buildStatsContainer (userDTO) {
+  Widget _buildStatsContainer (UserDTO userDTO) {
       return Container(
-        height: 200.0,
+        height: 300.0,
         width: double.infinity,
-        child: const Card(
+        child: Card(
           color: Colors.white54,
           child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text("data"),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Text('Stats',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                  ),
+                ),
+                const Text("HighScore",
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                  ),),
+                Text("${userDTO.highScore}"),
+                Image.asset('assets/images/stats_icon.png',
+                  width: 50.0,
+                  height: 50.0,),
+                const Text("Best Streak",
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                  ),),
+                Text("${userDTO.bestStreak}"),
+                Image.asset('assets/images/fire_icon.png',
+                  width: 50.0,
+                  height: 50.0,),
+              ],
+            ),
           ),
         ),
       );
@@ -113,7 +144,7 @@ class DashboardPage extends StatelessWidget with Keys {
           ),
           style: ElevatedButton.styleFrom(
             primary: const Color.fromRGBO(30, 197, 187, 1),
-            minimumSize: const Size(30.0, 80.0),
+            minimumSize: const Size(20.0, 60.0),
           ),
         ),
         SizedBox(width: 50.0),
@@ -131,7 +162,7 @@ class DashboardPage extends StatelessWidget with Keys {
           ),
           style: ElevatedButton.styleFrom(
             primary: const Color.fromRGBO(30, 197, 187, 1),
-            minimumSize: const Size(30.0, 80.0),
+            minimumSize: const Size(20.0, 60.0),
           ),
         ),
       ],

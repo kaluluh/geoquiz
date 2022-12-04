@@ -47,7 +47,7 @@ class ApplicationController {
        stats.level,
        stats.xp,
        stats.highScore,
-       stats.highScore,
+       stats.bestStreak,
        stats.leaderBoard);
   }
 
