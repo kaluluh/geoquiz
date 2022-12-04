@@ -105,8 +105,8 @@ class IntroductionPage extends StatelessWidget with Keys {
                     ),
                   ),
                   child: const Text(
-                    'Log In',
-                    style: TextStyle(fontSize: 16.0, color: Colors.black),
+                    'LOG IN',
+                    style: TextStyle(fontSize: 18.0, color: Colors.black),
                   ),
                 ),
                 const SizedBox(width: 10.0),
@@ -120,8 +120,8 @@ class IntroductionPage extends StatelessWidget with Keys {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Text('Sign Up',
-                      style: TextStyle(fontSize: 16.0, color: Colors.white)),
+                  child: const Text('SIGN UP',
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
                 ),
               ])
         ],
