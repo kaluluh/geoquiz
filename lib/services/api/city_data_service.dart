@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/city.dart';
+import '../../models/city.dart';
 
 class CityDataService {
 

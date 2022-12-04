@@ -8,7 +8,7 @@ import 'dart:async' as _i4;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart'
     as _i5;
-import 'package:geoquiz/services/auth.dart' as _i3;
+import 'package:geoquiz/services/firebase/auth.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

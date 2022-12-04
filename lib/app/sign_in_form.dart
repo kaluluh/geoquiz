@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
+import 'package:geoquiz/controller/application_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../common/colors.dart';
 import '../common/spaced_column.dart';
-import '../services/auth.dart';
-import '../services/validators.dart';
+import '../services/firebase/auth.dart';
+import '../services/firebase/validators.dart';
 
 class SignInForm extends StatefulWidget with Keys {
   const SignInForm({Key? key, required this.formType, required this.switchFormType, required this.isLoading, required this.setIsLoading, this.onSignedIn}) : super(key: key);
@@ -25,6 +26,7 @@ class _SignIpFormState extends State<SignInForm> with EmailLoginFormValidators {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;

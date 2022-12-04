@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geoquiz/services/firebase/auth.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
-import 'package:geoquiz/services/auth.dart';
 import 'package:provider/provider.dart';
 
 import 'package:geoquiz/common/keys.dart';

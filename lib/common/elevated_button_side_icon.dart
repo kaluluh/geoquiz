@@ -35,7 +35,7 @@ class ElevatedButtonSideIcon extends StatelessWidget {
         children: [
           if (icon != null) ...[
             icon!,
-            const SizedBox(width: 8),
+            const SizedBox(width: 7),
           ],
           Text(
             text,

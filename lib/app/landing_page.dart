@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 import 'package:geoquiz/app/game_page.dart';
 import 'package:geoquiz/app/intro_page.dart';
 import 'package:provider/provider.dart';
-import '../services/auth.dart';
 import 'dashboard_page.dart';
+
+import '../services/firebase/auth.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
