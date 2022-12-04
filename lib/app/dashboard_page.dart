@@ -91,7 +91,7 @@ class DashboardPage extends StatelessWidget with Keys {
                   const SizedBox(
                     width: 50,
                   ),
-                  Text(
+                  const Text(
                     "Xp: ",
                     style: TextStyle(
                       fontSize: 22.0,
@@ -110,7 +110,7 @@ class DashboardPage extends StatelessWidget with Keys {
                   const SizedBox(
                     width: 30,
                   ),
-                  Text(
+                  const Text(
                     "Level: ",
                     style: TextStyle(
                       fontSize: 22.0,
