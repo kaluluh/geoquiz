@@ -67,67 +67,76 @@ class DashboardPage extends StatelessWidget with Keys {
 
   Widget _buildNameContainer(UserDTO userDTO) {
     return Container(
-      height: 60.0,
+      height: 120.0,
       width: double.infinity,
       child: Card(
           color: Colors.white54,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
           child: Padding(
             padding: EdgeInsets.all(10.0),
-            child: Row(
+            child: Column(
                 children: [
-              Image.asset(
-                'assets/images/woman_avatar.png',
-                width: 70.0,
-                height: 70.0,
-              ),
-              Text(
-                    "${userDTO.name}",
-                    style: const TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/woman_avatar.png',
+                        width: 69.0,
+                        height: 69.0,
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        userDTO.name,
+                        style: const TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                      const SizedBox(width: 12,),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/hexagon_icon.png'),
+                              fit: BoxFit.cover,
+                            )
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 12),
+                            Text(
+                              '${userDTO.level}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]
                   ),
-                  const SizedBox(
-                    width: 50,
+                  Row(
+                    children: [
+                     const SizedBox(width: 80,),
+                      Text(
+                        "XP: ${userDTO.xp}/500",
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.normal,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                    ],
                   ),
-                  const Text(
-                    "Xp: ",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  Text(
-                    "${userDTO.xp}",
-                    style: const TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  const Text(
-                    "Level: ",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  Text(
-                    "${userDTO.level}",
-                    style: const TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-
-
             ]),
           )),
     );

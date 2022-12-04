@@ -21,7 +21,7 @@ class ApplicationController {
   Future<void> initializeUser(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
     if(_userRepository.checkUserExist(uid) == false){
-      var name = auth.currentUser?.isAnonymous == true ? "anonymous": auth.currentUser?.email?.split('@')[0];
+      var name = auth.currentUser?.isAnonymous == true ? "Anonymous": auth.currentUser?.email?.split('@')[0];
       var newUser = User(uid,
           name!,
           <String>[]);
