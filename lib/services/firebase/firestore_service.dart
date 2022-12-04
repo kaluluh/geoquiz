@@ -6,25 +6,7 @@ class FirestoreService {
 
   final FirebaseFirestore store = FirebaseFirestore.instance;
 
-  Stream<Iterable<T>> getCollectionStream<T>(
-      String path, T Function(Map<String, dynamic>) converter) {
-    print("Get collection items at $path");
-
-    final Stream<QuerySnapshot<Map<String, dynamic>>> snapshots =
-    store.collection(path).snapshots();
-
-    return snapshots.map((collectionSnapshot) {
-      final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents =
-          collectionSnapshot.docs;
-
-      return documents
-          .map((QueryDocumentSnapshot<Map<String, dynamic>> document) {
-        final Map<String, dynamic> data = document.data();
-        return converter(data);
-      });
-    });
-  }
-
+  /// To set data for a specific path
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
@@ -34,12 +16,15 @@ class FirestoreService {
     await reference.set(data);
   }
 
+  /// To delete data from a specific path
   Future<void> deleteData({required String path}) async {
     final reference = FirebaseFirestore.instance.doc(path);
     print('delete: $path');
     await reference.delete();
   }
 
+  /// Get a stream for a document stored at a specific path.
+  /// Convert snapshots to an object
   Stream<T> documentStream<T>({
     required String path,
     required T builder(Map<String, dynamic> data, String documentID),

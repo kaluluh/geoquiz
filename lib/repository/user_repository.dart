@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/user.dart';
 import '../services/firebase/api_path.dart';
-import '../services/firebase/firebase_datasource.dart';
 import '../services/firebase/firestore_service.dart';
 
 
@@ -10,7 +9,7 @@ class UserRepository {
   UserRepository();
 
   final _service = FirestoreService.instance;
-  final _database = FirebaseDataSource.instance.fireStore.collection('users');
+  final _database = FirebaseFirestore.instance.collection('users');
 
 
   Future<void> setUser(User user) => _service.setData(

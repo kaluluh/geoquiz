@@ -1,9 +1,10 @@
-import 'Friend.dart';
+import 'frienddto.dart';
 
+/// For easier display of user data
 class UserDTO {
   final String uid;
   final String name;
-  final List<Friend> friends;
+  final List<FriendDTO> friends;
   final int level;
   final int xp;
   final int highScore;

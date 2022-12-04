@@ -5,19 +5,19 @@ import 'package:geoquiz/repository/user_repository.dart';
 import '../models/stats.dart';
 import '../models/user.dart';
 import '../services/firebase/auth.dart';
-import 'dtos/Friend.dart';
+import 'dtos/frienddto.dart';
 
-//Routes the incoming requests towards to the business logic
-class UserController {
+/// Routes the incoming requests towards to the business logic
+class ApplicationController {
   late UserRepository _userRepository;
   late StatsRepository _statsRepository;
 
-  UserController() {
+  ApplicationController() {
     _userRepository = UserRepository();
     _statsRepository = StatsRepository();
   }
 
-  //To initialize the signed user
+  /// To initialize the signed user
   Future<void> initializeUser(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
     if(_userRepository.checkUserExist(uid) == false){
@@ -30,14 +30,14 @@ class UserController {
     }
   }
 
-  //Get user data by Id, returning with a UserDTO instance
+  /// Get user data by Id, returning with a UserDTO instance
   Future<UserDTO> getUserData(userId) async {
     var user = await _userRepository.getUserById(userId).first;
-    List<Friend> friends = <Friend>[];
+    List<FriendDTO> friends = <FriendDTO>[];
     if(user.friends.isNotEmpty){
       user.friends.forEach((friendId) async {
         var user = await _userRepository.getUserById(friendId).first;
-        friends.add(Friend(user.name, user.uid!));
+        friends.add(FriendDTO(user.name, user.uid!));
       });
     }
     var stats = await _statsRepository.getStats(userId).first;
@@ -52,7 +52,6 @@ class UserController {
   }
 
   void updateStats(uid,stats) {
-    // TO DO .. DTO CLASS
     _statsRepository.setStats(uid, stats);
   }
 

@@ -2,7 +2,6 @@ import '../models/stats.dart';
 import '../services/firebase/api_path.dart';
 import '../services/firebase/firestore_service.dart';
 
-
 class StatsRepository {
   StatsRepository();
 

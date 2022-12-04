@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geoquiz/app/sign_in_page.dart';
 import 'package:geoquiz/common/keys.dart';
-import 'package:geoquiz/controller/user_controller.dart';
+import 'package:geoquiz/controller/application_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../common/colors.dart';
