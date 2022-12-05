@@ -57,7 +57,7 @@ class FriendsPage extends ConsumerWidget with Keys, EmailLoginFormValidators {
         }
         final UserDTO userDTO = snapshot.data!;
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
           child: SpacedColumn(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,

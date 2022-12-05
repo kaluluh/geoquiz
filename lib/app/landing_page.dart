@@ -29,7 +29,7 @@ class LandingPage extends ConsumerWidget {
           return activePage.page;
         }
         return Container(
-          color: Colors.red,
+          color: Colors.white,
           child: const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),

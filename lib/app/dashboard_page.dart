@@ -59,7 +59,7 @@ class DashboardPage extends ConsumerWidget with Keys {
         }
         final UserDTO userDTO = snapshot.data!;
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
           child: SpacedColumn(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,11 +93,13 @@ class DashboardPage extends ConsumerWidget with Keys {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Show elipsis if name is too long
                     Row(
                       children: [
                         Text(
-                          "${userDTO.name}#${userDTO.uid.substring(0, 4)}",
+                          "${userDTO.name.length > 14 ? "${userDTO.name.substring(0, 12)}..." : userDTO.name}#${userDTO.uid.substring(0, 4)}",
                           style: Theme.of(context).textTheme.headline6,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(
                           width: 8,
