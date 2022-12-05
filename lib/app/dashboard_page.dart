@@ -92,13 +92,13 @@ class DashboardPage extends ConsumerWidget with Keys {
                     Row(
                       children: [
                         Text(
-                          userDTO.name,
+                          "${userDTO.name}#${userDTO.uid.substring(0, 4)}",
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         const SizedBox(
                           width: 8,
                         ),
-                        _buildLevelBadge(userDTO.level),
+                        buildLevelBadge(userDTO.level),
                       ],
                     ),
                     _buildXpBar(userDTO),
@@ -126,7 +126,7 @@ class DashboardPage extends ConsumerWidget with Keys {
     );
   }
 
-  Widget _buildLevelBadge(int level) {
+  Widget buildLevelBadge(int level) {
     // Use assets/images/hexagon_icon.png as the background image
     return Container(
       decoration: const BoxDecoration(

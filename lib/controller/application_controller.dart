@@ -53,6 +53,11 @@ class ApplicationController {
   void addFriend(userId, newFriendId) {
     _userRepository.addFriends(userId, newFriendId);
   }
+  
+  Future<void> addFriendByCode(userId, friendCode) async {
+    var friend = await _userRepository.getUserByCode(friendCode);
+    return await _userRepository.addFriends(userId, friend.uid!);
+  }
 
   void deleteFriend(userId, newFriendId) {
     _userRepository.removeFriends(userId, newFriendId);

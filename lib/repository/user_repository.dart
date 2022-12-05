@@ -26,6 +26,26 @@ class UserRepository {
     builder: (data, documentId) => User.fromMap(data),
   );
 
+  Future<User> getUserByCode(String code) async {
+    // Split code at # to get the name and the first 4 letters of uid
+    var name = code.split('#')[0];
+    var uid = code.split('#')[1];
+    // Find first user whose name is equal to the first part of friendCode
+    // and whose first 4 letters of uid is equal to the second part of friendCode
+
+    // Loop through all users
+    var users = await _database.get();
+    for (var user in users.docs) {
+      // If the name and the first 4 letters of uid is equal to the code
+      if (user.data()['name'] == name && user.id.substring(0, 4) == uid) {
+        // Return the user
+        return User.fromMap(user.data());
+      }
+    }
+    // If no user is found, return an empty user
+    return User('', '', <String>[]);
+  }
+
   Future<bool> isUserExists(String userId) async {
     var user = await getUserById(userId).first;
     return user != null ? true : false;
@@ -50,12 +70,12 @@ class UserRepository {
   Future<void> addFriends(String userId,String newFriendId) async {
       final user = await getUserById(userId).first;
       user.friends.add(newFriendId);
-      setUser(user);
+      await setUser(user);
   }
 
   Future<void> removeFriends(String userId,String newFriendId) async {
     final user = await getUserById(userId).first;
     user.friends.remove(newFriendId);
-    setUser(user);
+    await setUser(user);
   }
 }
