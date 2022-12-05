@@ -104,6 +104,7 @@ class GameInfo {
   final int score;
   final int guessCount;
   final int combo;
+  final int maxCombo;
   final int lives;
 
   final City? currentCity;
@@ -117,6 +118,7 @@ class GameInfo {
     this.score = 0,
     this.guessCount = 0,
     this.combo = 0,
+    this.maxCombo = 0,
     this.lives = maxLives,
     this.currentCity,
   });
@@ -128,6 +130,7 @@ class GameInfo {
     int? score,
     int? guessCount,
     int? combo,
+    int? maxCombo,
     int? lives,
     City? currentCity,
   }) {
@@ -138,6 +141,7 @@ class GameInfo {
       score: score ?? this.score,
       guessCount: guessCount ?? this.guessCount,
       combo: combo ?? this.combo,
+      maxCombo: maxCombo ?? this.maxCombo,
       lives: lives ?? this.lives,
       currentCity: currentCity ?? this.currentCity,
     );
@@ -150,6 +154,7 @@ class GuessInfo {
   final double distance;
   final double score;
   final bool correct;
+  final int combo;
 
   GuessInfo({
     required this.guess,
@@ -157,6 +162,7 @@ class GuessInfo {
     required this.distance,
     required this.score,
     required this.correct,
+    required this.combo,
   });
 }
 
@@ -276,6 +282,8 @@ class GameController extends StateNotifier<GameInfo> {
       guessCount: correct ? state.guessCount + 1 : state.guessCount,
       lives: correct ? state.lives : state.lives - 1,
       gameState: GameState.guessed,
+      combo: correct ? state.combo + 1 : 0,
+      maxCombo: max(state.maxCombo, state.combo),
     );
 
     return GuessInfo(
@@ -284,6 +292,7 @@ class GameController extends StateNotifier<GameInfo> {
       distance: distance,
       score: score,
       correct: correct,
+      combo: state.combo,
     );
   }
 

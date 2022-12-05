@@ -174,7 +174,8 @@ class GamePage extends ConsumerWidget {
     var statsController = StatsController(auth: auth, userController: userController);
     var score = ref.watch(gameControllerProvider).score;
     var xpGained = (ref.watch(gameControllerProvider).score / 15 * ref.read(gameDifficultyProvider).xpMultiplier).toInt();
-    var streak = ref.watch(gameControllerProvider).combo;
+    var streak = ref.watch(gameControllerProvider).maxCombo;
+    print('score: $score, xpGained: $xpGained, streak: $streak');
     PostGameStats stats = PostGameStats(score: score, xpGained: xpGained, bestStreak: streak);
     await statsController.setStats(stats);
   }

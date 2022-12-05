@@ -123,15 +123,31 @@ class GameBottomBar extends ConsumerWidget {
   }
 
   Widget _buildScoreCounter(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return SpacedColumn(
+      spacing: 10,
       children: [
-        const Text('Score', style: TextStyle(color: AppColors.textLightSecondary, fontSize: 16)),
-        Text(
-          ref.watch(gameControllerProvider).score.toString(),
-          style: const TextStyle(fontSize: 24, color: AppColors.textLight),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text('Score', style: TextStyle(color: AppColors.textLightSecondary, fontSize: 16)),
+            Text(
+              ref.watch(gameControllerProvider).score.toString(),
+              style: const TextStyle(fontSize: 24, color: AppColors.textLight),
+            ),
+          ],
         ),
+        ref.watch(gameControllerProvider).combo > 0 ? Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text('Streak', style: TextStyle(color: AppColors.textLightSecondary, fontSize: 16)),
+            Text(
+              ref.watch(gameControllerProvider).combo.toString(),
+              style: const TextStyle(fontSize: 20, color: AppColors.textLight),
+            ),
+          ],
+        ) : const SizedBox.shrink(),
       ],
     );
   }
