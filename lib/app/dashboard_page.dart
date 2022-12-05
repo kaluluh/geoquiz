@@ -169,7 +169,7 @@ class DashboardPage extends ConsumerWidget with Keys {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildStatBadge("assets/images/stats_icon.png", "Highscore", userDTO.highScore.toString()),
-                _buildStatBadge("assets/images/game_played_icon.png", "Games Played", userDTO.highScore.toString()),
+                _buildStatBadge("assets/images/game_played_icon.png", "Games Played", userDTO.leaderBoard.toString()),
                 _buildStatBadge("assets/images/fire_icon.png", "Best Streak", userDTO.bestStreak.toString()),
               ],
             )

@@ -20,6 +20,6 @@ class Stats {
   }
   //Convert Map<String,dynamic> to Stats
   factory Stats.fromMap(Map<String, dynamic> data) {
-    return Stats(data['level'], data['xp'], data['highScore'], data['bestStreak'],data['leaderBoard']);
+    return Stats(data['level'], data['XP'], data['highScore'], data['bestStreak'],data['leaderBoard']);
   }
 }

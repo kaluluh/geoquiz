@@ -20,13 +20,14 @@ class ApplicationController {
   /// To initialize the signed user
   Future<void> initializeUser(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
-    if (_userRepository.checkUserExist(uid) == false) {
+    var user = await _userRepository.checkUserExist(uid);
+    if (!user) {
       var name = auth.currentUser?.isAnonymous == true
           ? "Anonymous"
           : auth.currentUser?.email?.split('@')[0];
       var newUser = User(uid, name!, <String>[]);
       _userRepository.setUser(newUser);
-      _statsRepository.setStats(uid, Stats(0, 0, 0, 0, 0));
+      _statsRepository.setStats(uid, Stats(1, 0, 0, 0, 0));
     }
   }
 
@@ -40,10 +41,9 @@ class ApplicationController {
         friends.add(FriendDTO(user.name, user.uid!));
       });
     }
-    // var stats = await _statsRepository.getStats(userId).first;
-    // return UserDTO(user.uid!, user.name, friends, stats.level, stats.xp,
-    //     stats.highScore, stats.bestStreak, stats.leaderBoard);
-    return UserDTO(user.uid!, user.name, friends, 0, 0, 0, 0, 0);
+   var stats = await _statsRepository.getStats(userId).first;
+   return UserDTO(user.uid!, user.name, friends, stats.level, stats.xp,
+       stats.highScore, stats.bestStreak, stats.leaderBoard);
   }
 
   void updateStats(uid, stats) {

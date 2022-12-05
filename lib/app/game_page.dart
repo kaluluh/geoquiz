@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget, StateProvider, WidgetRef;
 import 'package:geoquiz/app/game_page/bottom_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
 
 import '../common/page_wrapper.dart';
+import '../controller/application_controller.dart';
+import '../controller/stats_controller.dart';
 import '../game/game_controller.dart';
+import '../services/firebase/auth.dart';
 
 final selectedLatProvider = StateProvider<double>((ref) => 0.0);
 final selectedLongProvider = StateProvider<double>((ref) => 0.0);
@@ -31,9 +35,17 @@ class GamePage extends ConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
+    final ApplicationController userController = ApplicationController();
+
     var markers = ref.watch(markersProvider);
     var lines = ref.watch(linesProvider);
     var gameState = ref.watch(gameControllerProvider).gameState;
+
+    if (gameState == GameState.finished) {
+      _updateStats(context, ref, auth, userController);
+    }
+
     return PageWrapper(
       backgroundColor: Colors.white,
       child: Column(
@@ -156,5 +168,14 @@ class GamePage extends ConsumerWidget {
       geodesic: true,
     );
     ref.read(linesProvider.notifier).state = {polyline};
+  }
+
+  void _updateStats(BuildContext context, WidgetRef ref, AuthBase auth, ApplicationController userController) async {
+    var statsController = StatsController(auth: auth, userController: userController);
+    var score = ref.watch(gameControllerProvider).score;
+    var xpGained = (ref.watch(gameControllerProvider).score / 15 * ref.read(gameDifficultyProvider).xpMultiplier).toInt();
+    var streak = ref.watch(gameControllerProvider).combo;
+    PostGameStats stats = PostGameStats(score: score, xpGained: xpGained, bestStreak: streak);
+    await statsController.setStats(stats);
   }
 }

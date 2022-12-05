@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geoquiz/common/navigation.dart';
+import 'package:geoquiz/controller/stats_controller.dart';
 
 import '../../common/colors.dart';
 import '../../common/headings.dart';
 import '../../common/spaced_column.dart';
+import '../../controller/application_controller.dart';
 import '../../game/game_controller.dart';
+import '../../services/firebase/auth.dart';
 import '../game_page.dart';
 
 class GameBottomBar extends ConsumerWidget {

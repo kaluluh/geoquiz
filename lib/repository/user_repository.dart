@@ -31,17 +31,9 @@ class UserRepository {
     return user != null ? true : false;
   }
 
-  bool checkUserExist(String userId) {
-    try {
-      bool exist = false;
-      _database.doc(userId).get().then((doc) {
-        return exist = doc.exists;
-      });
-       return exist;
-    } catch (e) {
-      // If any error
-      return false;
-    }
+  Future<bool> checkUserExist(String userId) async {
+    var user = await getUserById(userId).first;
+    return user != null ? true : false;
   }
 
   Future<List<User>> getAllUsers() async{
