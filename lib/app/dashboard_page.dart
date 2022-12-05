@@ -30,7 +30,6 @@ class DashboardPage extends ConsumerWidget with Keys {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthBase auth = Provider.of<AuthBase>(context);
     final ApplicationController userController = ApplicationController();
-    userController.initializeUser(auth);
 
     final bottomNavigationIndex = ref.watch(pageNavigationProvider);
     return PageWrapper(
@@ -42,11 +41,16 @@ class DashboardPage extends ConsumerWidget with Keys {
     );
   }
 
+  Future<UserDTO> _getUserData(AuthBase auth, ApplicationController userController) async {
+    await userController.initializeUser(auth);
+    return await userController.getUserData(auth.currentUser!.uid);
+  }
+
   Widget _buildContent(BuildContext context, WidgetRef ref) {
     final AuthBase auth = Provider.of<AuthBase>(context);
     final ApplicationController userController = ApplicationController();
     return FutureBuilder(
-      future: userController.getUserData(auth.currentUser!.uid),
+      future: _getUserData(auth, userController),
       builder: (BuildContext context, AsyncSnapshot<UserDTO> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
