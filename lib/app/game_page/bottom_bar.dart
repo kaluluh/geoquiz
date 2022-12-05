@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geoquiz/common/navigation.dart';
 
 import '../../common/colors.dart';
 import '../../common/headings.dart';
@@ -198,6 +199,10 @@ class GameBottomBar extends ConsumerWidget {
             'You scored ${ref.watch(gameControllerProvider).score} points',
             style: const TextStyle(color: AppColors.textLight, fontSize: 28),
           ),
+          Text(
+            'and you gained ${(ref.watch(gameControllerProvider).score / 25 * gameDifficulty.xpMultiplier).toInt().toString()} experience',
+            style: const TextStyle(color: AppColors.textLightSecondary, fontSize: 14),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -218,7 +223,9 @@ class GameBottomBar extends ConsumerWidget {
               const SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
-                  // todo: navigate to home
+                  ref.read(gameControllerProvider.notifier).resetGame();
+                  _clearMarkers(ref);
+                  changePage(ref, AppPage.home);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.secondary,

@@ -1,14 +1,21 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget, StateProvider, WidgetRef;
+import 'package:geoquiz/common/colors.dart';
+import 'package:geoquiz/common/headings.dart';
 import 'package:geoquiz/common/keys.dart';
 import 'package:geoquiz/controller/application_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../common/avatar.dart';
 import '../common/navigation.dart';
 import '../common/page_wrapper.dart';
+import '../common/spaced_column.dart';
 import '../controller/dtos/userdto.dart';
 import '../services/firebase/auth.dart';
 
-class DashboardPage extends StatelessWidget with Keys {
+class DashboardPage extends ConsumerWidget with Keys {
   const DashboardPage({Key? key}) : super(key: key);
 
   Future<void> _signOut(AuthBase auth) async {
@@ -20,322 +27,214 @@ class DashboardPage extends StatelessWidget with Keys {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final AuthBase auth = Provider.of<AuthBase>(context);
     final ApplicationController userController = ApplicationController();
     userController.initializeUser(auth);
+
+    final bottomNavigationIndex = ref.watch(pageNavigationProvider);
     return PageWrapper(
       backgroundImage: const AssetImage("assets/images/background_image.png"),
-      bottomNav: createBottomNavigation(),
-      child: _buildContent(auth),
+      bottomNav: createBottomNavigation(bottomNavigationIndex.index, (index) {
+        changePage(ref, AppPageExtension.getByNavIndex(index));
+      }),
+      child: _buildContent(context, ref),
     );
   }
 
-  Widget _buildContent(AuthBase auth) {
+  Widget _buildContent(BuildContext context, WidgetRef ref) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
     final ApplicationController userController = ApplicationController();
     return FutureBuilder(
-        future: userController.getUserData(auth.currentUser!.uid),
-        builder: (BuildContext context, AsyncSnapshot<UserDTO> snapshot) {
-          if (!snapshot.hasData) return Container(); // still loading
-          // alternatively use snapshot.connectionState != ConnectionState.done
-          final UserDTO userDTO = snapshot.data!;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildNameContainer(userDTO),
-                const SizedBox(
-                  height: 40.0,
-                ),
-                _buildStatsContainer(userDTO),
-                const SizedBox(
-                  height: 50.0,
-                ),
-                _displayButtons(auth),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                // _buildFriendsContainer(userDTO)
-              ],
-            ),
+      future: userController.getUserData(auth.currentUser!.uid),
+      builder: (BuildContext context, AsyncSnapshot<UserDTO> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-          // return a widget here (you have to return a widget to the builder)
-        });
+        }
+        final UserDTO userDTO = snapshot.data!;
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SpacedColumn(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 20,
+            children: [
+              _buildProfileCard(context, ref, userDTO),
+              _buildStatsCard(context, ref, userDTO),
+              _buildPlayCard(context, ref, userDTO),
+            ],
+          ),
+        );
+        // return a widget here (you have to return a widget to the builder)
+    });
   }
 
-  Widget _buildNameContainer(UserDTO userDTO) {
-    return Container(
-      height: 120.0,
-      width: double.infinity,
-      child: Card(
-          color: Colors.white54,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-                children: [
-                  Row(
+  Widget _buildProfileCard(BuildContext context, WidgetRef ref, UserDTO userDTO) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
+    return Card(
+      color: Colors.white70,
+      elevation: 10,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SpacedColumn(
+          children: [
+            Row(
+              children: [
+                Avatar(uid: userDTO.uid, name: userDTO.name, size: 60),
+                const SizedBox(
+                  width: 16,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          userDTO.name,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        _buildLevelBadge(userDTO.level),
+                      ],
+                    ),
+                    _buildXpBar(userDTO),
+                  ],
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Image.asset(
-                        'assets/images/woman_avatar.png',
-                        width: 69.0,
-                        height: 69.0,
-                      ),
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      Text(
-                        userDTO.name,
-                        style: const TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                        ),
-                      ),
-                      const SizedBox(width: 12,),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/hexagon_icon.png'),
-                              fit: BoxFit.cover,
-                            )
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 12),
-                            Text(
-                              '${userDTO.level}',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]
-                  ),
-                  Row(
-                    children: [
-                     const SizedBox(width: 80,),
-                      Text(
-                        "XP: ${userDTO.xp}/500",
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.normal,
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.logout),
+                        onPressed: () => _signOut(auth),
                       ),
                     ],
                   ),
-            ]),
-          )),
-    );
-  }
-
-  Widget _buildStatsContainer(UserDTO userDTO) {
-    return Container(
-      height: 240.0,
-      width: double.infinity,
-      child: Card(
-        color: Colors.white54,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/stats_icon.png',
-                    width: 90.0,
-                    height: 90.0,
-                  ),
-                  const SizedBox(
-                    width: 70,
-                    height: 140,
-                  ),
-                  Image.asset(
-                    'assets/images/fire_icon.png',
-                    width: 90.0,
-                    height: 90.0,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Text(
-                    "HighScore",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text(
-                    "Best Streak",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "${userDTO.highScore}",
-                    style: const TextStyle(
-                      fontSize: 21.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 145,
-                  ),
-                  Text(
-                    "${userDTO.bestStreak}",
-                    style: const TextStyle(
-                      fontSize: 21.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ]
         ),
       ),
     );
   }
 
-  Widget _displayButtons(auth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ElevatedButton.icon(
-          onPressed: () => {},
-          label: const Text(
-            "QuickPlay",
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
-          ),
-          icon: const Icon(
-            Icons.arrow_forward_ios_outlined,
-            size: 18.0,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: const Color.fromRGBO(253, 205, 28, 1),
-            shadowColor: Colors.black,
-            minimumSize: const Size(30.0, 70.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
+  Widget _buildLevelBadge(int level) {
+    // Use assets/images/hexagon_icon.png as the background image
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/hexagon_icon.png"),
+          fit: BoxFit.contain,
+          filterQuality: FilterQuality.high,
         ),
-        SizedBox(width: 50.0),
-        ElevatedButton.icon(
-          onPressed: () => _signOut(auth),
-          label: const Text(
-            "Sign out",
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
-          ),
-          icon: const Icon(
-            Icons.logout,
-            size: 20.0,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: const Color.fromRGBO(11, 11, 56, 1),
-            minimumSize: const Size(30.0, 70.0),
-            shadowColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(11.0),
+        child: Text(
+          level.toString(),
+          style: const TextStyle(fontSize: 16),
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildFriendsContainer(userDTO) {
-    return Container(
-      height: 150.0,
-      width: double.infinity,
-      child: Card(
-        color: Colors.white54,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Text("Friends"),
-                  const SizedBox(
-                    width: 20.0,
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ElevatedButton.icon(
-                      onPressed: () => {},
-                      label: const Text(
-                        "add Friends",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      icon: const Icon(
-                        Icons.add,
-                        size: 16.0,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(30, 197, 187, 1),
-                        minimumSize: const Size(10.0, 10.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text("Name"),
-              Divider(
-                color: Colors.black,
-              ),
-              Text("Name"),
-              Divider(
-                color: Colors.black,
-              ),
-            ],
+  Widget _buildXpBar(UserDTO userDTO) {
+    return Text(
+      "XP: ${userDTO.xp} / 1000",
+      style: const TextStyle(fontSize: 16),
+    );
+  }
+
+
+  Widget _buildStatsCard(BuildContext context, WidgetRef ref, UserDTO userDTO) {
+    return Card(
+      color: Colors.white70,
+      elevation: 10,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SpacedColumn(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 20,
+          children: [
+            const Heading(text: "Your Stats", level: Headings.h2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildStatBadge("assets/images/stats_icon.png", "Highscore", userDTO.highScore.toString()),
+                _buildStatBadge("assets/images/game_played_icon.png", "Games Played", userDTO.highScore.toString()),
+                _buildStatBadge("assets/images/fire_icon.png", "Best Streak", userDTO.bestStreak.toString()),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatBadge(String image, String text, String value) {
+    return SpacedColumn(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.backgroundLight,
+          ),
+          child: Image(
+            image: AssetImage(image),
+            width: 100,
+            height: 100,
+            filterQuality: FilterQuality.high,
           ),
         ),
+        Heading(
+          text: text,
+          level: Headings.h6,
+          styleOverride: const TextStyle(color: AppColors.textDarkSecondary),
+        ),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 24),
+        ),
+      ]
+    );
+  }
+
+
+  Widget _buildPlayCard(BuildContext context, WidgetRef ref, UserDTO userDTO) {
+    return Container(
+      height: 100,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                changePage(ref, AppPage.gameSelection);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.primary,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+              ),
+              child: const Text(
+                "Quick Play",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              )),
+          ],
+        )
       ),
     );
   }

@@ -16,11 +16,11 @@ final markersProvider = StateProvider<Set<Marker>>((ref) => {});
 final linesProvider = StateProvider<Set<Polyline>>((ref) => {});
 final lastGuessProvider = StateProvider<GuessInfo?>((ref) => null);
 
-class GamePage extends ConsumerWidget {
-  GamePage({Key? key, required this.gameType, required this.gameDifficulty}) : super(key: key);
+final gameDifficultyProvider = StateProvider<GameDifficulty>((ref) => GameDifficulty.medium);
+final gameTypeProvider = StateProvider<GameType>((ref) => GameType.world);
 
-  final GameType gameType;
-  final GameDifficulty gameDifficulty;
+class GamePage extends ConsumerWidget {
+  GamePage({Key? key}) : super(key: key);
 
   static const MarkerId markerId = MarkerId('guessPosition');
   Completer<GoogleMapController> controllerCompleter = Completer();
@@ -45,8 +45,8 @@ class GamePage extends ConsumerWidget {
           Expanded(
             flex: gameState == GameState.notStarted ? 1000 : 0,
             child: GameBottomBar(
-              gameType: gameType,
-              gameDifficulty: gameDifficulty,
+              gameType: ref.read(gameTypeProvider),
+              gameDifficulty: ref.read(gameDifficultyProvider),
               guessAction: () => guessAction(ref),
             ),
           ),

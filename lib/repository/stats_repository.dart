@@ -7,13 +7,17 @@ class StatsRepository {
 
   final _service = FirestoreService.instance;
 
-  Future<void> setStats(uid,Stats stats) => _service.setData(
-    path: APIPath.stats(uid),
-    data: stats.toMap(),
-  );
+  Future<void> setStats(String uid, Stats stats) async {
+    await _service.setData(
+      path: APIPath.stats(uid),
+      data: stats.toMap(),
+    );
+  }
 
-  Stream<Stats> getStats(uid) => _service.documentStream(
-    path: APIPath.stats(uid),
-    builder: (data, documentId) => Stats.fromMap(data),
-  );
+  Stream<Stats> getStats(String uid) {
+    return _service.documentStream(
+      path: APIPath.stats(uid),
+      builder: (data, documentId) => Stats.fromMap(data),
+    );
+  }
 }

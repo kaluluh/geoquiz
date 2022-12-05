@@ -20,13 +20,13 @@ class ApplicationController {
   /// To initialize the signed user
   Future<void> initializeUser(AuthBase auth) async {
     var uid = auth.currentUser!.uid;
-    if(_userRepository.checkUserExist(uid) == false){
-      var name = auth.currentUser?.isAnonymous == true ? "Anonymous": auth.currentUser?.email?.split('@')[0];
-      var newUser = User(uid,
-          name!,
-          <String>[]);
+    if (_userRepository.checkUserExist(uid) == false) {
+      var name = auth.currentUser?.isAnonymous == true
+          ? "Anonymous"
+          : auth.currentUser?.email?.split('@')[0];
+      var newUser = User(uid, name!, <String>[]);
       _userRepository.setUser(newUser);
-      _statsRepository.setStats(uid,Stats(0,0,0,0,0));
+      _statsRepository.setStats(uid, Stats(0, 0, 0, 0, 0));
     }
   }
 
@@ -34,32 +34,27 @@ class ApplicationController {
   Future<UserDTO> getUserData(userId) async {
     var user = await _userRepository.getUserById(userId).first;
     List<FriendDTO> friends = <FriendDTO>[];
-    if(user.friends.isNotEmpty){
+    if (user.friends.isNotEmpty) {
       user.friends.forEach((friendId) async {
         var user = await _userRepository.getUserById(friendId).first;
         friends.add(FriendDTO(user.name, user.uid!));
       });
     }
-    var stats = await _statsRepository.getStats(userId).first;
-   return UserDTO(user.uid!,
-       user.name,
-       friends,
-       stats.level,
-       stats.xp,
-       stats.highScore,
-       stats.bestStreak,
-       stats.leaderBoard);
+    // var stats = await _statsRepository.getStats(userId).first;
+    // return UserDTO(user.uid!, user.name, friends, stats.level, stats.xp,
+    //     stats.highScore, stats.bestStreak, stats.leaderBoard);
+    return UserDTO(user.uid!, user.name, friends, 0, 0, 0, 0, 0);
   }
 
-  void updateStats(uid,stats) {
+  void updateStats(uid, stats) {
     _statsRepository.setStats(uid, stats);
   }
 
-  void addFriend(userId,newFriendId) {
+  void addFriend(userId, newFriendId) {
     _userRepository.addFriends(userId, newFriendId);
   }
 
-  void deleteFriend(userId,newFriendId) {
+  void deleteFriend(userId, newFriendId) {
     _userRepository.removeFriends(userId, newFriendId);
   }
 

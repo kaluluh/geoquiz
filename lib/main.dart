@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 import 'package:geoquiz/app/landing_page.dart';
 import 'package:geoquiz/common/colors.dart';
 import 'package:geoquiz/services/firebase/auth.dart';
@@ -31,7 +32,9 @@ class GeoQuizApp extends StatelessWidget {
             secondary: AppColors.secondary,
           ),
         ),
-        home: const LandingPage(),
+        home: const ProviderScope(
+          child: LandingPage()
+        ),
       ),
     );
   }

@@ -76,6 +76,17 @@ extension GameDifficultyExtension on GameDifficulty {
         return 1000;
     }
   }
+
+  double get xpMultiplier {
+    switch (this) {
+      case GameDifficulty.easy:
+        return 1;
+      case GameDifficulty.medium:
+        return 1.5;
+      case GameDifficulty.hard:
+        return 2;
+    }
+  }
 }
 
 enum GameState{

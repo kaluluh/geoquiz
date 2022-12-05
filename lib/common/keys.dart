@@ -13,5 +13,7 @@ class Keys {
   static const Key signInFormPasswordField = Key('field-sign-in-password');
   static const Key signInFormSwapButton = Key('button-sign-in-swap');
 
+  static const Key signOutButton = Key('button-sign-out');
+
   static const Key welcomeText = Key('text-welcome');
 }
